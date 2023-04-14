@@ -1,10 +1,12 @@
 function searchSong(){
+  //let songLyrics = $("idname").value;
+  //let songArtist = $("idname").value;
   $.ajax({
     type: "GET",
     data: {
         apikey:"8aeb7ff0f51f21a364a803d7a9db035f",
-        q_lyrics: "thought i ran into you",
-        q_artist: "green day",
+        q_lyrics: "thought i ran into you", //switch to songLyrics variable,
+        q_artist: "green day", //switch to songArtist variable,
         //f_music_genre_id: "20",
         format:"jsonp",
         callback:"jsonp_callback"
