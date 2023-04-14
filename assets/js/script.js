@@ -33,3 +33,16 @@ function querySpotify(searchParams) {
 querySpotify("track:The%20Real%20Slim%20Shady%20artist:Eminem");
 
 // Returns song information, preview, etc.
+
+$(function (){
+
+  var searchResultsEl = $('#search-results');
+  var resultCardsEl = $('#results-card')
+
+
+
+
+
+
+
+});
