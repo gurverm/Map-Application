@@ -1,12 +1,14 @@
-function searchSong(){
-  //let songLyrics = $("idname").value;
-  //let songArtist = $("idname").value;
+function searchSong(lyrics, artist){
   $.ajax({
     type: "GET",
     data: {
         apikey:"8aeb7ff0f51f21a364a803d7a9db035f",
-        q_lyrics: "thought i ran into you", //switch to songLyrics variable,
-        q_artist: "green day", //switch to songArtist variable,
+        q_lyrics: lyrics,
+        q_artist: artist,
+
+        // Values for testing
+        // q_lyrics: "thought i ran into you",
+        // q_artist: "green day",
         //f_music_genre_id: "20",
         format:"jsonp",
         callback:"jsonp_callback"
@@ -16,14 +18,14 @@ function searchSong(){
     jsonpCallback: 'jsonp_callback',
     contentType: 'application/json',
     success: function(data) {
-        console.log(data); 
+        console.log(data);
         console.log(data.message.body.track_list[0].track.track_name);
     },
     error: function(jqXHR, textStatus, errorThrown) {
        console.log(jqXHR);
        console.log(textStatus);
        console.log(errorThrown);
-    }    
+    }
   });
  };
  //searchSong();
@@ -71,10 +73,9 @@ $(function (){
   var searchResultsEl = $('#search-results');
   var resultCardsEl = $('#results-card')
 
+  $("#search-form").on("submit", function(e) {
+    e.preventDefault();
 
-
-
-
-
-
+    searchSong($("#search-lyrics").val(), $("#search-artist").val())
+  })
 });
