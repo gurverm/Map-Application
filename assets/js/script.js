@@ -59,7 +59,17 @@ function querySpotify(searchParams) {
         },
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => {
+          var trackLink = data.tracks.items[0].external_urls.spotify;
+          console.log(trackLink);
+          // Add track link to search results
+          var searchResultEl = $('<div class="search-result"></div>');
+          var trackNameEl = $('<h2></h2>').text(data.tracks.items[0].name);
+          var artistNameEl = $('<p></p>').text(data.tracks.items[0].artists[0].name);
+          var trackLinkEl = $('<a></a>').text(trackLink).attr('href', trackLink).attr('target', '_blank');
+          searchResultEl.append(trackNameEl, artistNameEl, trackLinkEl);
+          $('#search-results').empty().append(searchResultEl);
+        });
     });
 }
 
