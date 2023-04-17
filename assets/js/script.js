@@ -18,7 +18,11 @@ function searchSong(lyrics, artist){
         console.log(data.message.body.track_list[0].track.track_name);
 
         // Display top result on page
-        $(".song-title").text(data.message.body.track_list[0].track.track_name);
+        let songTitle = $(".song-title"); 
+        songTitle.text(data.message.body.track_list[0].track.track_name);
+        songTitle.attr("type", "button");
+        songTitle.click(querySpotify(data.message.body.track_list[0].track.track_name));
+
     },
     error: function(jqXHR, textStatus, errorThrown) {
        console.log(jqXHR);
