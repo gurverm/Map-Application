@@ -5,10 +5,6 @@ function searchSong(lyrics, artist){
         apikey:"8aeb7ff0f51f21a364a803d7a9db035f",
         q_lyrics: lyrics,
         q_artist: artist,
-
-        // Values for testing
-        // q_lyrics: "thought i ran into you",
-        // q_artist: "green day",
         //f_music_genre_id: "20",
         format:"jsonp",
         callback:"jsonp_callback"
@@ -20,6 +16,8 @@ function searchSong(lyrics, artist){
     success: function(data) {
         console.log(data);
         console.log(data.message.body.track_list[0].track.track_name);
+
+        // Display top result on page
         $(".song-title").text(data.message.body.track_list[0].track.track_name);
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -67,13 +65,9 @@ function querySpotify(searchParams) {
 // Example function call. -- Searching for a track and artist.
 querySpotify("track:The%20Real%20Slim%20Shady%20artist:Eminem");
 
-// Returns song information, preview, etc.
+
 
 $(function (){
-
-  var searchResultsEl = $('#search-results');
-  var resultCardsEl = $('#results-card')
-
   $("#search-form").on("submit", function(e) {
     e.preventDefault();
 
