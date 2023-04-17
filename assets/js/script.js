@@ -1,3 +1,35 @@
+function searchSong(){
+  //let songLyrics = $("idname").value;
+  //let songArtist = $("idname").value;
+  $.ajax({
+    type: "GET",
+    data: {
+        apikey:"8aeb7ff0f51f21a364a803d7a9db035f",
+        q_lyrics: "thought i ran into you", //switch to songLyrics variable,
+        q_artist: "green day", //switch to songArtist variable,
+        //f_music_genre_id: "20",
+        format:"jsonp",
+        callback:"jsonp_callback"
+    },
+    url: "http://api.musixmatch.com/ws/1.1/track.search?page_size=10&page=1&s_track_rating=desc",
+    dataType: "jsonp",
+    jsonpCallback: 'jsonp_callback',
+    contentType: 'application/json',
+    success: function(data) {
+        console.log(data); 
+        console.log(data.message.body.track_list[0].track.track_name);
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+       console.log(jqXHR);
+       console.log(textStatus);
+       console.log(errorThrown);
+    }    
+  });
+ };
+ //searchSong();
+
+
+
 function querySpotify(searchParams) {
   // Used to get access token from Spotify API.
   var clientId = "d1f4e5778128411caa0f75e77acc0c35";
@@ -33,3 +65,16 @@ function querySpotify(searchParams) {
 querySpotify("track:The%20Real%20Slim%20Shady%20artist:Eminem");
 
 // Returns song information, preview, etc.
+
+$(function (){
+
+  var searchResultsEl = $('#search-results');
+  var resultCardsEl = $('#results-card')
+
+
+
+
+
+
+
+});
