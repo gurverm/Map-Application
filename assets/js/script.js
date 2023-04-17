@@ -68,6 +68,7 @@ function querySpotify(searchParams) {
           var trackLinkEl = $('<a></a>').text(trackLink).attr('href', trackLink).attr('target', '_blank');
           searchResultEl.append(trackNameEl, artistNameEl, trackLinkEl);
           $('#search-results').empty().append(searchResultEl);
+          
         });
     });
 }
