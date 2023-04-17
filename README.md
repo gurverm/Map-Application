@@ -43,6 +43,4 @@ Marek Polar
 Jack Lacey-Rogers
 Kajian Pulenthirasingam
 
-License
-This application is open-source and available under the MIT License. Feel free to use, modify, and distribute the code for personal and commercial purposes. However, please attribute the original authors and provide a link to the original repository in your project documentation or acknowledgments.
 
