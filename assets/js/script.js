@@ -20,6 +20,7 @@ function searchSong(lyrics, artist){
     success: function(data) {
         console.log(data);
         console.log(data.message.body.track_list[0].track.track_name);
+        $(".song-title").text(data.message.body.track_list[0].track.track_name);
     },
     error: function(jqXHR, textStatus, errorThrown) {
        console.log(jqXHR);
@@ -28,7 +29,7 @@ function searchSong(lyrics, artist){
     }
   });
  };
- //searchSong();
+
 
 
 
