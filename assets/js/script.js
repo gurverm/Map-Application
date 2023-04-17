@@ -89,3 +89,22 @@ $(function (){
     searchSong($("#search-lyrics").val(), $("#search-artist").val())
   })
 });
+var test = "test-button";
+
+const searchHistory = $('#recent-searches');
+const button = $('<button>').text(test);
+searchHistory.append(button); 
+
+//this is the function that will be called when the search button is clicked to store the search term in local storage and append it to the recent searches section
+
+
+
+// function getRecentSearches() {
+//   var recentSearch = localStorage.getItem("recentSearches");
+//   if (recentSearch !== null) {
+//     recentSearch = JSON.parse(recentSearch);
+//   }
+//   else {
+// let recentSearchesContainer = document.getElementById('recent-searches');
+// let recentSearchesHTML = getRecentSearches();
+// recentSearchesContainer.innerHTML = recentSearchesHTML;
