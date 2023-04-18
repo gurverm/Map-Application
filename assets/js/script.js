@@ -80,8 +80,6 @@ function querySpotify(searchParams) {
 // Example function call. -- Searching for a track and artist.
 querySpotify("track:The%20Real%20Slim%20Shady%20artist:Eminem");
 
-
-
 $(function (){
   $("#search-form").on("submit", function(e) {
     e.preventDefault();
@@ -108,3 +106,24 @@ searchHistory.append(button);
 // let recentSearchesContainer = document.getElementById('recent-searches');
 // let recentSearchesHTML = getRecentSearches();
 // recentSearchesContainer.innerHTML = recentSearchesHTML;
+
+// Returns song information, preview, etc.
+
+function modalPupUp(){
+
+  var searchForm = $('#search-form');
+  var searchArtist = $('#search-artist');
+  var searchLyrics = $('#search-lyrics');
+  
+  searchForm.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent form submission
+  
+    if (searchArtist.value.trim() === '' && searchLyrics.value.trim() === '') {
+      // Show the modal if both search fields are empty
+      var modal = $('#modal');
+      modal.classList.remove('hidden');
+    } else {
+      searchSong;
+    }
+  });
+  };
