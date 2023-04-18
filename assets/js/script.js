@@ -108,13 +108,13 @@ function printSongs(songs, count) {
   // TODO: Update appearance here. --Peter
   $("#search-results").append(`
     <div class="result-card border border-gray-200 rounded px-6 py-2 w-3/4">
-      <img src="${songs[count].cover}">
+      <img src="${songs[count].cover}" alt="Album cover art of ${songs[count].album}">
         <ul>
+          <li class="text-2xl">
+            ${songs[count].song}
+          </li>
           <li class="text-xl">
             <i class="fa-solid fa-circle-user"></i> ${songs[count].artist}
-          </li>
-          <li class="text-2xl">
-            <i class="fa-solid fa-music"></i> ${songs[count].song}
           </li>
           <li class="text-xl">
             <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
