@@ -72,12 +72,13 @@ function querySpotify(searchParams) {
         .then((data) => {
           var trackLink = data.tracks.items[0].external_urls.spotify;
           console.log(trackLink);
-          // Add track link to search results
+          // Add track link to search results and plays the preview
           var searchResultEl = $('<div class="search-result"></div>');
           var trackNameEl = $('<h2></h2>').text(data.tracks.items[0].name);
           var artistNameEl = $('<p></p>').text(data.tracks.items[0].artists[0].name);
           var trackLinkEl = $('<a></a>').text(trackLink).attr('href', trackLink).attr('target', '_blank');
-          searchResultEl.append(trackNameEl, artistNameEl, trackLinkEl);
+          var previewEl = $('<audio controls></audio>').append($('<source>').attr('src', previewUrl).attr('type', 'audio/mpeg'));
+          searchResultEl.append(trackNameEl, artistNameEl, trackLinkEl, previewEl);
           $('#search-results').empty().append(searchResultEl);
           
         });
@@ -102,21 +103,6 @@ const searchHistory = $('#recent-searches');
 const button = $('<button>').text(test);
 searchHistory.append(button); 
 
-//this is the function that will be called when the search button is clicked to store the search term in local storage and append it to the recent searches section
-
-
-
-// function getRecentSearches() {
-//   var recentSearch = localStorage.getItem("recentSearches");
-//   if (recentSearch !== null) {
-//     recentSearch = JSON.parse(recentSearch);
-//   }
-//   else {
-// let recentSearchesContainer = document.getElementById('recent-searches');
-// let recentSearchesHTML = getRecentSearches();
-// recentSearchesContainer.innerHTML = recentSearchesHTML;
-
-// Returns song information, preview, etc.
 
 function showModal() {
   var modal = document.getElementById("my-modal");
