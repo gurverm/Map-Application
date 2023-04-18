@@ -64,6 +64,7 @@ function querySpotify(searchParams) {
         .then((response) => response.json())
         .then((data) => {
           var trackLink = data.tracks.items[0].external_urls.spotify;
+          var previewUrl = data.tracks.items[0].preview_url;
           console.log(trackLink);
           // Add track link to search results and plays the preview
           var searchResultEl = $('<div class="search-result"></div>');
