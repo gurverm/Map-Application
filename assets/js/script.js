@@ -75,7 +75,7 @@ function searchSong(lyrics, artist) {
   var querySpotify = function (songs, count) {
     // Might be better to make query more specific (also search by artist, album, etc.)
     // But can't find song in Spotify sometimes  --Peter
-    let query = `track:${songs[count].song}`;
+    let query = `track:${songs[count].song} artist:${songs[count].artist}`;
 
     fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
       headers: {
