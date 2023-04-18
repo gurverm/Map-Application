@@ -110,13 +110,22 @@ function printSongs(songs, count) {
     <div class="result-card border border-gray-200 rounded px-6 py-2 w-3/4">
       <img src="${songs[count].cover}">
         <ul>
-          <li class="text-xl">${songs[count].artist}</li>
-          <li class="text-2xl">${songs[count].song}</li>
+          <li class="text-xl">
+            <i class="fa-solid fa-circle-user"></i> ${songs[count].artist}
+          </li>
+          <li class="text-2xl">
+            <i class="fa-solid fa-music"></i> ${songs[count].song}
+          </li>
+          <li class="text-xl">
+            <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
+          </li>
           <li>Duration: ${songs[count].duration} ms</li>
           <li>Explicit: ${songs[count].explicit}</li>
           <li>Popularity: ${songs[count].popularity}</li>
-          <li>Preview: ${songs[count].previewUrl}</li>
-          <li>Spotify: ${songs[count].spotifyUrl}</li>
+          <li>
+            Preview: <a href="${songs[count].previewUrl}"><i class="fa-solid fa-volume-high fa-2xl"></i><i class="fa-solid fa-volume-xmark fa-2xl"></i></a>
+          </li>
+          <a href="${songs[count].spotifyUrl}"><i class="fa-brands fa-spotify fa-2xl"></i></a>
         </ul>
     </div>
   `);
