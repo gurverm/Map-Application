@@ -105,7 +105,13 @@ searchHistory.append(button);
 
 
 function showModal() {
-  var modal = document.getElementById("my-modal");
-  modal.removeAttribute("hidden");
+  var modal = $("#modal");
+  let continueButton = $("#continueButton");
+  modal.removeAttr("hidden");
+  continueButton.click(function(){
+    modal.attr("hidden", '');
+  })
+
+
 }
 
