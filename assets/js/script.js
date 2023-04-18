@@ -24,7 +24,7 @@ function searchSong(lyrics, artist){
           let songTitle = $(".song-title"); 
           songTitle.text(data.message.body.track_list[0].track.track_name);
           console.log("something");
-          showModal();
+
           querySpotify(data.message.body.track_list[0].track.track_name);
         }
         // Display top result on page
@@ -105,7 +105,13 @@ searchHistory.append(button);
 
 
 function showModal() {
-  var modal = document.getElementById("my-modal");
-  modal.removeAttribute("hidden");
+  var modal = $("#modal");
+  let continueButton = $("#continueButton");
+  modal.removeAttr("hidden");
+  continueButton.click(function(){
+    modal.attr("hidden", '');
+  })
+
+
 }
 
