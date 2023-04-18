@@ -2,7 +2,7 @@
 
 This is a lyric search application that allows users to search for songs based on their lyrics using the Spotify API. The application provides a preview of the song along with the lyrics, allowing users to listen to a snippet of the song before deciding to listen to the full track on Spotify.
 
-Features
+## Features
 Lyric Search: Users can enter the lyrics of a song in the search bar and the application will retrieve songs that match the entered lyrics using the Spotify API.
 
 Preview of Songs: The application provides a preview of the song along with the lyrics. Users can listen to a snippet of the song to get an idea of the melody and rhythm.
@@ -11,7 +11,7 @@ Song Details: The application displays information about the song, such as the a
 
 Link to Spotify: The application provides a link to the full song on Spotify, allowing users to listen to the complete track if they like the preview.
 
-# Technologies Used
+## Technologies Used
 
 Spotify API: The application uses the Spotify API to search for songs based on lyrics and retrieve song details, such as album art, artist name, and track preview.
 
@@ -21,7 +21,7 @@ Front-End Framework: The application uses a popular front-end framework, such as
 
 Code Editor: The application is developed using a code editor, such as Visual Studio Code or Sublime Text, for writing and editing code.
 
-# Getting Started
+## Getting Started
 
 To run the lyric search application locally, follow these steps:
 
@@ -39,11 +39,11 @@ The application relies on the accuracy and availability of lyrics data from the 
 
 The application requires an internet connection to access the Spotify API and retrieve song data.
 
-Contributiors
-Gurveer Madurai
-Peter Park
-Marek Polar
-Jack Lacey-Rogers
-Kajian Pulenthirasingam
+# Contributiors
+[Gurveer Madurai](https://github.com/gurverm),
+[Peter Park](https://github.com/qkr0wns),
+[Marek Polar](https://github.com/MarekAlexPolak),
+[Jack Lacey-Rogers](https://github.com/MarekAlexPolak),
+[Kajian Pulenthirasingam](https://github.com/kajianpulenthirasingam)
 
 
