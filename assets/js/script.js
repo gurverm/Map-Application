@@ -16,12 +16,19 @@ function searchSong(lyrics, artist){
     success: function(data) {
         console.log(data);
         console.log(data.message.body.track_list[0].track.track_name);
-
+        if (lyrics == '' || artist == ''){
+          showModal();
+          console.log("nothing");
+        }
+        else {
+          let songTitle = $(".song-title"); 
+          songTitle.text(data.message.body.track_list[0].track.track_name);
+          console.log("something");
+          showModal();
+          querySpotify(data.message.body.track_list[0].track.track_name);
+        }
         // Display top result on page
-        let songTitle = $(".song-title"); 
-        songTitle.text(data.message.body.track_list[0].track.track_name);
-        songTitle.attr("type", "button");
-        songTitle.click(querySpotify(data.message.body.track_list[0].track.track_name));
+
 
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -82,6 +89,8 @@ function querySpotify(searchParams) {
 querySpotify("track:The%20Real%20Slim%20Shady%20artist:Eminem");
 
 $(function (){
+  //const modal = document.querySelector('.relative');
+ //hideModal();
   $("#search-form").on("submit", function(e) {
     e.preventDefault();
 
@@ -95,21 +104,8 @@ const button = $('<button>').text(test);
 searchHistory.append(button); 
 
 
-function modalPupUp(){
+function showModal() {
+  var modal = document.getElementById("my-modal");
+  modal.removeAttribute("hidden");
+}
 
-  var searchForm = $('#search-form');
-  var searchArtist = $('#search-artist');
-  var searchLyrics = $('#search-lyrics');
-  
-  searchForm.addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent form submission
-  
-    if (searchArtist.value.trim() === '' && searchLyrics.value.trim() === '') {
-      // Show the modal if both search fields are empty
-      var modal = $('#modal');
-      modal.classList.remove('hidden');
-    } else {
-      searchSong;
-    }
-  });
-  };
