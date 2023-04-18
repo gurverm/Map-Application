@@ -176,6 +176,27 @@ searchButton.addEventListener('click', function() {
       artistSearchInput.value = searchLabel.split(' - ')[1];
       
       searchButton.click();
+      // Authenticate request and get song from Spotify.
+      fetch(`https://api.spotify.com/v1/search?q=${searchParams}&type=track`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          var trackLink = data.tracks.items[0].external_urls.spotify;
+          var previewUrl = data.tracks.items[0].preview_url;
+          console.log(trackLink);
+          // Add track link to search results and plays the preview
+          var searchResultEl = $('<div class="search-result"></div>');
+          var trackNameEl = $('<h2></h2>').text(data.tracks.items[0].name);
+          var artistNameEl = $('<p></p>').text(data.tracks.items[0].artists[0].name);
+          var trackLinkEl = $('<a></a>').text(trackLink).attr('href', trackLink).attr('target', '_blank');
+          var previewEl = $('<audio controls></audio>').append($('<source>').attr('src', previewUrl).attr('type', 'audio/mpeg'));
+          searchResultEl.append(trackNameEl, artistNameEl, trackLinkEl, previewEl);
+          $('#search-results').empty().append(searchResultEl);
+          
+        });
     });
     
     searchHistoryList.appendChild(newButton);
