@@ -1,7 +1,8 @@
 function searchSong(lyrics, artist) {
   var spotifyAccessToken;
 
-  (function getSpotifyAccess() { // Execute immediately.
+  (function getSpotifyAccess() {
+    // Execute immediately.
     let clientId = "d1f4e5778128411caa0f75e77acc0c35";
     let clientSecret = "a783b8a0bedb4bd58196734b1b619e47";
     let basicAuth = btoa(`${clientId}:${clientSecret}`);
@@ -72,10 +73,9 @@ function searchSong(lyrics, artist) {
   };
 
   var querySpotify = function (songs, count) {
-    let elem = songs[count];
     // Might be better to make query more specific (also search by artist, album, etc.)
     // But can't find song in Spotify sometimes  --Peter
-    let query = `track:${elem.song}`;
+    let query = `track:${songs[count].song}`;
 
     fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
       headers: {
@@ -84,12 +84,16 @@ function searchSong(lyrics, artist) {
     })
       .then((response) => response.json())
       .then((data) => {
-        elem.cover = data.tracks.items[0].album.images[1].url;
-        elem.duration = data.tracks.items[0].duration_ms;
-        elem.explicit = data.tracks.items[0].explicit;
-        elem.popularity = data.tracks.items[0].popularity;
-        elem.previewUrl = data.tracks.items[0].preview_url;
-        elem.spotifyUrl = data.tracks.items[0].external_urls.spotify;
+        let spotifyRes = data.tracks.items[0];
+
+        if (spotifyRes) {
+          songs[count].cover = spotifyRes.album.images[1].url;
+          songs[count].duration = spotifyRes.duration_ms;
+          songs[count].explicit = spotifyRes.explicit;
+          songs[count].popularity = spotifyRes.popularity;
+          songs[count].previewUrl = spotifyRes.preview_url;
+          songs[count].spotifyUrl = spotifyRes.external_urls.spotify;
+        }
       })
       .then(() => {
         count++;
