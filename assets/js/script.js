@@ -17,6 +17,9 @@ function searchSong(lyrics, artist){
         console.log(data);
         console.log(data.message.body.track_list[0].track.track_name);
 
+        
+
+
         // Display top result on page
         let songTitle = $(".song-title"); 
         songTitle.text(data.message.body.track_list[0].track.track_name);
@@ -121,9 +124,10 @@ function modalPupUp(){
     if (searchArtist.value.trim() === '' && searchLyrics.value.trim() === '') {
       // Show the modal if both search fields are empty
       var modal = $('#modal');
-      modal.classList.remove('hidden');
+      modal.classList.remove('none');
     } else {
       searchSong;
     }
   });
   };
+
