@@ -66,15 +66,23 @@ querySpotify("track:The%20Real%20Slim%20Shady%20artist:Eminem");
 
 // Returns song information, preview, etc.
 
-$(function (){
+function modalPupUp(){
 
-  var searchResultsEl = $('#search-results');
-  var resultCardsEl = $('#results-card')
+  var searchForm = $('#search-form');
+  var searchArtist = $('#search-artist');
+  var searchLyrics = $('#search-lyrics');
+  
+  searchForm.addEventListener('submit', (event) => {
+    event.preventDefault(); // Prevent form submission
+  
+    if (searchArtist.value.trim() === '' && searchLyrics.value.trim() === '') {
+      // Show the modal if both search fields are empty
+      var modal = $('#modal');
+      modal.classList.remove('hidden');
+    } else {
+      searchSong;
+    }
+  });
+  };
 
 
-
-
-
-
-
-});
