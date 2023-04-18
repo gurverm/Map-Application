@@ -97,11 +97,54 @@ $(function (){
     searchSong($("#search-lyrics").val(), $("#search-artist").val())
   })
 });
-var test = "test-button";
 
-const searchHistory = $('#recent-searches');
-const button = $('<button>').text(test);
-searchHistory.append(button); 
+const searchHistoryList = document.querySelector('#search-history-list');
+const lyricsSearchInput = document.querySelector('#search-lyrics');
+const artistSearchInput = document.querySelector('#search-artist');
+const searchButton = document.querySelector('#search-button');
+
+let searchHistory = [];
+
+searchButton.addEventListener('click', function() {
+  // Get the values from both search inputs
+  const lyricsValue = lyricsSearchInput.value;
+  const artistValue = artistSearchInput.value;
+  
+  // Combine the values into a single label
+  const searchLabel = `${lyricsValue} - ${artistValue}`;
+  
+  // Check if the search label is already in the search history
+  if (!searchHistory.includes(searchLabel)) {
+    const newButton = document.createElement('button');
+    
+    // Set the button's label to the search label
+    newButton.innerText = searchLabel;
+    
+    newButton.addEventListener('click', function() {
+      // Set the lyrics search input value to the lyrics portion of the label
+      lyricsSearchInput.value = searchLabel.split(' - ')[0];
+      
+      // Set the artist search input value to the artist portion of the label
+      artistSearchInput.value = searchLabel.split(' - ')[1];
+      
+      searchButton.click();
+    });
+    
+    searchHistoryList.appendChild(newButton);
+    searchHistory.push(searchLabel);
+  }
+});
+
+searchHistory.forEach(function(searchLabel) {
+  const newButton = document.createElement('button');
+  newButton.innerText = searchLabel;
+  newButton.addEventListener('click', function() {
+    lyricsSearchInput.value = searchLabel.split(' - ')[0];
+    artistSearchInput.value = searchLabel.split(' - ')[1];
+    searchButton.click();
+  });
+  searchHistoryList.appendChild(newButton);
+});
 
 
 function showModal() {
@@ -114,4 +157,6 @@ function showModal() {
 
 
 }
+
+
 
