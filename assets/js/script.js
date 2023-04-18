@@ -1,12 +1,10 @@
-function searchSong(){
-  //let songLyrics = $("idname").value;
-  //let songArtist = $("idname").value;
+function searchSong(lyrics, artist){
   $.ajax({
     type: "GET",
     data: {
         apikey:"8aeb7ff0f51f21a364a803d7a9db035f",
-        q_lyrics: "thought i ran into you", //switch to songLyrics variable,
-        q_artist: "green day", //switch to songArtist variable,
+        q_lyrics: lyrics,
+        q_artist: artist,
         //f_music_genre_id: "20",
         format:"jsonp",
         callback:"jsonp_callback"
@@ -16,17 +14,24 @@ function searchSong(){
     jsonpCallback: 'jsonp_callback',
     contentType: 'application/json',
     success: function(data) {
-        console.log(data); 
+        console.log(data);
         console.log(data.message.body.track_list[0].track.track_name);
+
+        // Display top result on page
+        let songTitle = $(".song-title"); 
+        songTitle.text(data.message.body.track_list[0].track.track_name);
+        songTitle.attr("type", "button");
+        songTitle.click(querySpotify(data.message.body.track_list[0].track.track_name));
+
     },
     error: function(jqXHR, textStatus, errorThrown) {
        console.log(jqXHR);
        console.log(textStatus);
        console.log(errorThrown);
-    }    
+    }
   });
  };
- //searchSong();
+
 
 
 
@@ -57,12 +62,50 @@ function querySpotify(searchParams) {
         },
       })
         .then((response) => response.json())
-        .then((data) => console.log(data))
+        .then((data) => {
+          var trackLink = data.tracks.items[0].external_urls.spotify;
+          console.log(trackLink);
+          // Add track link to search results
+          var searchResultEl = $('<div class="search-result"></div>');
+          var trackNameEl = $('<h2></h2>').text(data.tracks.items[0].name);
+          var artistNameEl = $('<p></p>').text(data.tracks.items[0].artists[0].name);
+          var trackLinkEl = $('<a></a>').text(trackLink).attr('href', trackLink).attr('target', '_blank');
+          searchResultEl.append(trackNameEl, artistNameEl, trackLinkEl);
+          $('#search-results').empty().append(searchResultEl);
+          
+        });
     });
 }
 
 // Example function call. -- Searching for a track and artist.
 querySpotify("track:The%20Real%20Slim%20Shady%20artist:Eminem");
+
+$(function (){
+  $("#search-form").on("submit", function(e) {
+    e.preventDefault();
+
+    searchSong($("#search-lyrics").val(), $("#search-artist").val())
+  })
+});
+var test = "test-button";
+
+const searchHistory = $('#recent-searches');
+const button = $('<button>').text(test);
+searchHistory.append(button); 
+
+//this is the function that will be called when the search button is clicked to store the search term in local storage and append it to the recent searches section
+
+
+
+// function getRecentSearches() {
+//   var recentSearch = localStorage.getItem("recentSearches");
+//   if (recentSearch !== null) {
+//     recentSearch = JSON.parse(recentSearch);
+//   }
+//   else {
+// let recentSearchesContainer = document.getElementById('recent-searches');
+// let recentSearchesHTML = getRecentSearches();
+// recentSearchesContainer.innerHTML = recentSearchesHTML;
 
 // Returns song information, preview, etc.
 
@@ -84,5 +127,3 @@ function modalPupUp(){
     }
   });
   };
-
-
