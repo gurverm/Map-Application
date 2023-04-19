@@ -13,7 +13,9 @@ Link to Spotify: The application provides a link to the full song on Spotify, al
 
 ## Technologies Used
 
-Spotify API: The application uses the Spotify API to search for songs based on lyrics and retrieve song details, such as album art, artist name, and track preview.
+Spotify API: The application uses the Spotify API to search for song links and track preview.
+
+MusixMatch API : The application uses the MusixMatch API to search the song lyrics and matches it with the Spotify API.
 
 Web Technologies: The application is built using modern web technologies, such as HTML5, CSS3, and JavaScript.
 
@@ -34,16 +36,16 @@ Enter the lyrics of a song in the search bar and click the search button.
 The application will retrieve songs that match the entered lyrics from the Spotify API.
 Click on a song from the search results to view the song details, including the song preview, lyrics, artist, album, release date, and popularity.
 Click on the Spotify link to listen to the full song on Spotify.
-Limitations
+## Limitations
 The application relies on the accuracy and availability of lyrics data from the Spotify API. If the lyrics data is incomplete or inaccurate, the search results may not be accurate.
 
 The application requires an internet connection to access the Spotify API and retrieve song data.
 
-# Contributiors
-[Gurveer Madurai](https://github.com/gurverm),
-[Peter Park](https://github.com/qkr0wns),
-[Marek Polar](https://github.com/MarekAlexPolak),
-[Jack Lacey-Rogers](https://github.com/MarekAlexPolak),
-[Kajian Pulenthirasingam](https://github.com/kajianpulenthirasingam)
+# Contributors
+* [Gurveer Madurai](https://github.com/gurverm),
+* [Peter Park](https://github.com/qkr0wns),
+* [Marek Polar](https://github.com/MarekAlexPolak),
+* [Jack Lacey-Rogers](https://github.com/MarekAlexPolak),
+* [Kajian Pulenthirasingam](https://github.com/kajianpulenthirasingam)
 
 
