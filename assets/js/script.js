@@ -111,9 +111,9 @@ function searchSong(lyrics, artist) {
 function printSongs(songs, count) {
   // TODO: Update appearance here. --Peter
   $("#search-results").append(`
-    <div class="result-card border border-gray-200 rounded px-6 py-2 w-3/4">
-      <img src="${songs[count].cover}" alt="Album cover art of ${songs[count].album}">
-        <ul>
+    <div class="mt-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-500 md:max-w-xl md:flex-row">
+      <img src="${songs[count].cover}" alt="Album cover for '${songs[count].album}' is unavailable" class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
+        <ul class= "m-2">
           <li class="text-2xl">
             ${songs[count].song}
           </li>
@@ -229,3 +229,5 @@ function showModal() {
     modal.attr("hidden", "");
   });
 }
+
+
