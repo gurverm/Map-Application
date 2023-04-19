@@ -152,17 +152,24 @@ function recentSongs(){
   const searchHistoryList = document.querySelector('#search-history-list');
   const lyricsSearchInput = document.querySelector('#search-lyrics');
   const artistSearchInput = document.querySelector('#search-artist');
-  const searchButton = document.querySelector('#search-button');
+  //const searchButton = document.querySelector('#search-button');
   let searchHistory = [];
   // Get the values from both search inputs
   const lyricsValue = lyricsSearchInput.value;
   const artistValue = artistSearchInput.value;
 
   // Combine the values into a single label
-  const searchLabel = `${lyricsValue} - ${artistValue}`;
+  let searchLabel = `${lyricsValue} - ${artistValue}`;
+
+  if (!searchHistory.includes(searchLabel)) {
+    const newButton = document.createElement('li');
+    newButton.innerText = searchLabel;
+    lyricsSearchInput.value = searchLabel.split(' - ')[0];
+    artistSearchInput.value = searchLabel.split(' - ')[1];
+
 
   // Check if the search label is already in the search history
-  if (!searchHistory.includes(searchLabel)) {
+  /*if (!searchHistory.includes(searchLabel)) {
     const newButton = document.createElement('button');
 
     // Set the button's label to the search label
@@ -178,12 +185,14 @@ function recentSongs(){
       searchButton.click();
     
     });
+    */
 
     searchHistoryList.appendChild(newButton);
     searchHistory.push(searchLabel);
   }
+}
 
-searchHistory.forEach(function(searchLabel) {
+/*searchHistory.forEach(function(searchLabel) {
   const newButton = document.createElement('button');
   newButton.innerText = searchLabel;
   newButton.addEventListener('click', function() {
@@ -192,9 +201,9 @@ searchHistory.forEach(function(searchLabel) {
     searchButton.click();
   });
   searchHistoryList.appendChild(newButton);
-});
+});*/
 
-}
+//}
 
 
 $(function () {
