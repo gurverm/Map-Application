@@ -177,7 +177,7 @@ searchButton.addEventListener('click', function() {
 
       searchButton.click();
       // Authenticate request and get song from Spotify.
-      fetch(`https://api.spotify.com/v1/search?q=${searchParams}&type=track`, {
+      /*fetch(`https://api.spotify.com/v1/search?q=${searchParams}&type=track`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -196,7 +196,7 @@ searchButton.addEventListener('click', function() {
           searchResultEl.append(trackNameEl, artistNameEl, trackLinkEl, previewEl);
           $('#search-results').empty().append(searchResultEl);
 
-        });
+        });*/
     });
 
     searchHistoryList.appendChild(newButton);
