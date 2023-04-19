@@ -48,7 +48,12 @@ function searchSong(lyrics, artist) {
         if (lyrics == "" || artist == "") {
           showModal();
           console.log("nothing");
-        } else {
+        } 
+        else if (data.message.body.track_list.length == 0){
+          showModal();
+        }
+        
+        else {
           // Clear previous search results.
           $("#search-results").empty();
 
