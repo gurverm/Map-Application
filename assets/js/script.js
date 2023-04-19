@@ -80,6 +80,7 @@ function searchSong(lyrics, artist) {
   var querySpotify = function (songs, count) {
     // Might be better to make query more specific (also search by artist, album, etc.)
     // But can't find song in Spotify sometimes  --Peter
+
     let query = `track:${songs[count].song} artist:${songs[count].artist}`;
 
     fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
@@ -107,6 +108,7 @@ function searchSong(lyrics, artist) {
           querySpotify(songs, count);
         } else {
           // Display search results.
+          recentSongs();
           printSongs(songs, 0);
         }
       });
@@ -146,14 +148,12 @@ function printSongs(songs, count) {
   }
 }
 
-const searchHistoryList = document.querySelector('#search-history-list');
-const lyricsSearchInput = document.querySelector('#search-lyrics');
-const artistSearchInput = document.querySelector('#search-artist');
-const searchButton = document.querySelector('#search-button');
-
-let searchHistory = [];
-
-searchButton.addEventListener('click', function() {
+function recentSongs(){
+  const searchHistoryList = document.querySelector('#search-history-list');
+  const lyricsSearchInput = document.querySelector('#search-lyrics');
+  const artistSearchInput = document.querySelector('#search-artist');
+  const searchButton = document.querySelector('#search-button');
+  let searchHistory = [];
   // Get the values from both search inputs
   const lyricsValue = lyricsSearchInput.value;
   const artistValue = artistSearchInput.value;
@@ -176,33 +176,12 @@ searchButton.addEventListener('click', function() {
       artistSearchInput.value = searchLabel.split(' - ')[1];
 
       searchButton.click();
-      // Authenticate request and get song from Spotify.
-      fetch(`https://api.spotify.com/v1/search?q=${searchParams}&type=track`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          var trackLink = data.tracks.items[0].external_urls.spotify;
-          var previewUrl = data.tracks.items[0].preview_url;
-          console.log(trackLink);
-          // Add track link to search results and plays the preview
-          var searchResultEl = $('<div class="search-result"></div>');
-          var trackNameEl = $('<h2></h2>').text(data.tracks.items[0].name);
-          var artistNameEl = $('<p></p>').text(data.tracks.items[0].artists[0].name);
-          var trackLinkEl = $('<a></a>').text(trackLink).attr('href', trackLink).attr('target', '_blank');
-          var previewEl = $('<audio controls></audio>').append($('<source>').attr('src', previewUrl).attr('type', 'audio/mpeg'));
-          searchResultEl.append(trackNameEl, artistNameEl, trackLinkEl, previewEl);
-          $('#search-results').empty().append(searchResultEl);
-
-        });
+    
     });
 
     searchHistoryList.appendChild(newButton);
     searchHistory.push(searchLabel);
   }
-});
 
 searchHistory.forEach(function(searchLabel) {
   const newButton = document.createElement('button');
@@ -214,6 +193,9 @@ searchHistory.forEach(function(searchLabel) {
   });
   searchHistoryList.appendChild(newButton);
 });
+
+}
+
 
 $(function () {
   //const modal = document.querySelector('.relative');
