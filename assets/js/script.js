@@ -106,11 +106,14 @@ function searchSong(lyrics, artist) {
 
         if (spotifyRes) {
           songs[count].spotifyId = spotifyRes.id;
+          songs[count].album = spotifyRes.album.name;
+          songs[count].artist = concSpotifyArtists(spotifyRes.artists);
           songs[count].cover = spotifyRes.album.images[1].url;
           songs[count].duration = spotifyRes.duration_ms;
           songs[count].explicit = spotifyRes.explicit;
           songs[count].popularity = spotifyRes.popularity;
           songs[count].previewUrl = spotifyRes.preview_url;
+          songs[count].song = spotifyRes.name;
           songs[count].spotifyUrl = spotifyRes.external_urls.spotify;
         } else {
           // Remove song if it cannot be found in Spotify.
@@ -130,6 +133,14 @@ function searchSong(lyrics, artist) {
         }
       });
   };
+}
+
+function concSpotifyArtists(artists) {
+  let concArtists = artists[0].name
+  for (let i = 1; i < artists.length; i++) {
+    concArtists += ", " + artists[i].name;
+  }
+  return concArtists;
 }
 
 function printSongs(songs, count) {
@@ -188,7 +199,6 @@ function printSongs(songs, count) {
     </div>
   `);
 
-  if (songs[count].explicit)
     if (count < songs.length - 1) {
       count++;
       // Recurse to add Spotify info to all songs.
