@@ -128,9 +128,9 @@ function searchSong(lyrics, artist) {
           // Recurse to add Spotify info to all songs.
           querySpotify(songs, count);
         } else {
+          recentSongs();
           // Display search results.
           printSongs(songs, 0);
-          recentSongs();
         }
       });
   };
