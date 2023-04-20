@@ -29,11 +29,12 @@ function searchSong(lyrics, artist) {
     return (
       query
         // Make Spotify search more reliable. --Peter
-        // Tweak formatting as needed.
-        .replaceAll("feat. ", "")
         .replaceAll(" (Remastered)", "")
         .replaceAll(" [Edited Version]", "")
         .replaceAll(" Version", "")
+        .replaceAll("feat. ", "")
+        .replaceAll("- ", "")
+        .replaceAll("& ", "")
         .replaceAll("'", "")
     );
   };
