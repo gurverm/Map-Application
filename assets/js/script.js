@@ -3,9 +3,9 @@ function searchSong(lyrics, artist) {
 
   (function getSpotifyAccess() {
     // Execute immediately.
-    let clientId = "d1f4e5778128411caa0f75e77acc0c35";
-    let clientSecret = "a783b8a0bedb4bd58196734b1b619e47";
-    let basicAuth = btoa(`${clientId}:${clientSecret}`);
+    const clientId = "d1f4e5778128411caa0f75e77acc0c35";
+    const clientSecret = "a783b8a0bedb4bd58196734b1b619e47";
+    const basicAuth = btoa(`${clientId}:${clientSecret}`);
 
     // Get access token.
     fetch("https://accounts.spotify.com/api/token", {
@@ -28,7 +28,7 @@ function searchSong(lyrics, artist) {
 
     return (
       query
-        // Make Spotify search more reliable. --Peter
+        // Make Spotify search more reliable.
         .replaceAll(" (Remastered)", "")
         .replaceAll(" [Edited Version]", "")
         .replaceAll(" Version", "")
@@ -36,6 +36,7 @@ function searchSong(lyrics, artist) {
         .replaceAll("- ", "")
         .replaceAll("& ", "")
         .replaceAll("'", "")
+        .replaceAll('"', "")
     );
   };
 
@@ -91,9 +92,8 @@ function searchSong(lyrics, artist) {
 
   var querySpotify = function (songs, count) {
     fetch(
-      `https://api.spotify.com/v1/search?q=${formatQuery(
-        songs[count]
-      )}&type=track`,
+      `https://api.spotify.com/v1/search?q=${formatQuery(songs[count])}
+      &type=track&limit=1`,
       {
         headers: {
           Authorization: `Bearer ${spotifyAccessToken}`,
@@ -102,15 +102,20 @@ function searchSong(lyrics, artist) {
     )
       .then((response) => response.json())
       .then((data) => {
-        let spotifyRes = data.tracks.items[0];
+        const spotifyRes = data.tracks.items[0];
 
         if (spotifyRes) {
+          songs[count].spotifyId = spotifyRes.id;
           songs[count].cover = spotifyRes.album.images[1].url;
           songs[count].duration = spotifyRes.duration_ms;
           songs[count].explicit = spotifyRes.explicit;
           songs[count].popularity = spotifyRes.popularity;
           songs[count].previewUrl = spotifyRes.preview_url;
           songs[count].spotifyUrl = spotifyRes.external_urls.spotify;
+        } else {
+          // Remove song if it's found in Musixmatch, but cannot be found in Spotify.
+          songs.splice(count, 1);
+          count--;
         }
       })
       .then(() => {
@@ -120,18 +125,40 @@ function searchSong(lyrics, artist) {
           querySpotify(songs, count);
         } else {
           // Display search results.
-          recentSongs();
           printSongs(songs, 0);
+          recentSongs();
         }
       });
   };
 }
 
 function printSongs(songs, count) {
-  // TODO: Update appearance here. --Peter
+  // var trimSongs = function () {
+
+  //   // Remove if found in Musixmatch, but not in Spotify.
+  //   if (!songs[count].spotifyId) {
+  //     songs.splice(count, 1);
+  //   }
+
+  //   // if (count > 0) {
+  //   //   count--;
+  //   //   trimSongs(songs);
+  //   // }
+  // }
+
+  var formatDuration = function (ms) {
+    const min = Math.floor((ms / 60000) % 60);
+    const sec = Math.floor((ms / 1000) % 60)
+      .toString()
+      .padStart(2, "0");
+    return `${min}:${sec}`;
+  };
+
   $("#search-results").append(`
     <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-500 md:flex-row">
-      <img src="${songs[count].cover}" alt="Album cover for ${songs[count].album}" class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
+      <img src="${songs[count].cover}" alt="Album cover for ${
+    songs[count].album
+  }" class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
         <ul class= "m-2">
           <li class="text-2xl">
             ${songs[count].song}
@@ -142,13 +169,17 @@ function printSongs(songs, count) {
           <li class="text-xl">
             <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
           </li>
-          <li>Duration: ${songs[count].duration} ms</li>
+          <li>${formatDuration(songs[count].duration)}</li>
           <li>Explicit: ${songs[count].explicit}</li>
           <li>Popularity: ${songs[count].popularity}</li>
           <li>
-            Preview: <a href="${songs[count].previewUrl}"><i class="fa-solid fa-volume-high fa-2xl"></i><i class="fa-solid fa-volume-xmark fa-2xl"></i></a>
+            Preview: <a href="${
+              songs[count].previewUrl
+            }"><i class="fa-solid fa-volume-high fa-2xl"></i><i class="fa-solid fa-volume-xmark fa-2xl"></i></a>
           </li>
-          <a href="${songs[count].spotifyUrl}"><i class="fa-brands fa-spotify fa-2xl"></i></a>
+          <a href="${
+            songs[count].spotifyUrl
+          }"><i class="fa-brands fa-spotify fa-2xl"></i></a>
         </ul>
     </div>
   `);
