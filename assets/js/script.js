@@ -47,8 +47,8 @@ function searchSong(lyrics, artist) {
       type: "GET",
       data: {
         // Marek's API key... stopped working for Peter for some reason
-        // apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
-        apikey: "d74273e06e4dea74340b05375a6c9bd3",
+        apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
+        // apikey: "d74273e06e4dea74340b05375a6c9bd3",
         q_lyrics: lyrics,
         q_artist: artist,
         //f_music_genre_id: "20",
@@ -113,7 +113,7 @@ function searchSong(lyrics, artist) {
           songs[count].previewUrl = spotifyRes.preview_url;
           songs[count].spotifyUrl = spotifyRes.external_urls.spotify;
         } else {
-          // Remove song if it's found in Musixmatch, but cannot be found in Spotify.
+          // Remove song if it cannot be found in Spotify.
           songs.splice(count, 1);
           count--;
         }
@@ -133,62 +133,67 @@ function searchSong(lyrics, artist) {
 }
 
 function printSongs(songs, count) {
-  // var trimSongs = function () {
-
-  //   // Remove if found in Musixmatch, but not in Spotify.
-  //   if (!songs[count].spotifyId) {
-  //     songs.splice(count, 1);
-  //   }
-
-  //   // if (count > 0) {
-  //   //   count--;
-  //   //   trimSongs(songs);
-  //   // }
-  // }
-
+  let explicit;
+  let popularity;
+  // To display duration in m:ss.
   var formatDuration = function (ms) {
     const min = Math.floor((ms / 60000) % 60);
     const sec = Math.floor((ms / 1000) % 60)
       .toString()
       .padStart(2, "0");
-    return `${min}:${sec}`;
+    return `<span class="mx-2 font-mono align-middle">${min}:${sec}</span>`;
   };
+  // To display explicit icon if true.
+  if (songs[count].explicit) {
+    explicit = '<i class="fa-solid fa-xmarks-lines mx-2 text-red-800 align-middle"></i>';
+  } else {
+    explicit = "";
+  }
+  // To display popularity icon.
+  if (songs[count].popularity >= 75) {
+    popularity = '<i class="fa-solid fa-temperature-full mx-2 text-3xl align-middle"></i>';
+  } else if (songs[count].popularity >= 50) {
+    popularity = '<i class="fa-solid fa-temperature-three-quarters mx-2 text-3xl align-middle"></i>'
+  } else if (songs[count].popularity >= 25) {
+    popularity = '<i class="fa-solid fa-temperature-quarter mx-2 text-3xl align-middle"></i>'
+  } else {
+    popularity = '<i class="fa-solid fa-temperature-empty mx-2 text-3xl align-middle"></i>';
+  }
 
   $("#search-results").append(`
-    <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-500 md:flex-row">
-      <img src="${songs[count].cover}" alt="Album cover for ${
-    songs[count].album
-  }" class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
-        <ul class= "m-2">
-          <li class="text-2xl">
-            ${songs[count].song}
-          </li>
-          <li class="text-xl">
-            <i class="fa-solid fa-circle-user"></i> ${songs[count].artist}
-          </li>
-          <li class="text-xl">
-            <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
-          </li>
-          <li>${formatDuration(songs[count].duration)}</li>
-          <li>Explicit: ${songs[count].explicit}</li>
-          <li>Popularity: ${songs[count].popularity}</li>
-          <li>
-            Preview: <a href="${
-              songs[count].previewUrl
-            }"><i class="fa-solid fa-volume-high fa-2xl"></i><i class="fa-solid fa-volume-xmark fa-2xl"></i></a>
-          </li>
-          <a href="${
-            songs[count].spotifyUrl
-          }"><i class="fa-brands fa-spotify fa-2xl"></i></a>
-        </ul>
+    <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-500 md:flex-row z-10">
+      <img src="${songs[count].cover}"
+      alt="Album cover for ${songs[count].album}"
+      class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
+      <div class="flex flex-col m-2 w-full">
+        <h4 class="m-2 mb-0 text-2xl">${songs[count].song}</h4>
+        <div class="flex flex-col justify-between lg:flex-row">
+          <div class="w-full">
+            <span class="text-xl">${popularity}${formatDuration(songs[count].duration)}${explicit}</span>
+            <ul class= "m-2">
+              <li class="text-xl my-1">
+                <i class="fa-solid fa-circle-user"></i> ${songs[count].artist}
+              </li>
+              <li class="text-xl">
+                <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
+              </li>
+            </ul>
+          </div>
+          <div class="flex justify-around items-center m-2 my-5 w-full">
+            <a href="${songs[count].previewUrl}" class="text-2xl"><i class="fa-solid fa-circle-play fa-2xl"></i></a>
+            <a href="${songs[count].spotifyUrl}" target="_blank" class="text-2xl"><i class="fa-brands fa-spotify fa-2xl"></i></a>
+          </div>
+        </div>
+      </div>
     </div>
   `);
 
-  if (count < songs.length - 1) {
-    count++;
-    // Recurse to add Spotify info to all songs.
-    printSongs(songs, count);
-  }
+  if (songs[count].explicit)
+    if (count < songs.length - 1) {
+      count++;
+      // Recurse to add Spotify info to all songs.
+      printSongs(songs, count);
+    }
 }
 
 function recentSongs() {
