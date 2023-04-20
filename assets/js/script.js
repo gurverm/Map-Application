@@ -188,7 +188,7 @@ function printSongs(songs, count) {
       <img src="${songs[count].cover}"
       alt="Album cover for ${songs[count].album}"
       class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
-      <div class="flex flex-col m-2 w-full">
+      <div class="flex flex-col m-2">
         <h4 class="song-title m-2 mb-0 text-2xl">${songs[count].song}</h4>
         <div class="flex flex-col justify-between lg:flex-row">
           <div class="w-full">
@@ -201,10 +201,16 @@ function printSongs(songs, count) {
                 <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
               </li>
             </ul>
-            <audio controls src="${songs[count].previewUrl}" class="block rounded-full m-3"></audio>
+            <audio controls src="${songs[count].previewUrl}" class="block rounded-full m-2"></audio>
           </div>
-          <div class="flex justify-around items-center m-2 my-5 w-full">
-            <a href="${songs[count].spotifyUrl}" target="_blank" class="text-6xl m-2 w-auto hover:text-green-600"><i class="fa-brands fa-spotify fa-2xl"></i></a>
+          <div class="flex items-center m-2">
+            <a href="${songs[count].spotifyUrl}" target="_blank"
+            after="Open in Spotify"
+            class="lg:text-4xl text-2xl
+            w-auto hover:text-green-600
+            lg:after:content-[''] after:content-[attr(after)]">
+              <i class="fa-brands fa-spotify fa-2xl"></i>
+            </a>
           </div>
         </div>
       </div>
