@@ -48,7 +48,8 @@ function searchSong(lyrics, artist) {
       data: {
         // Marek's API key... stopped working for Peter for some reason
         // apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
-        apikey: "d74273e06e4dea74340b05375a6c9bd3",
+        // apikey: "d74273e06e4dea74340b05375a6c9bd3",
+        apikey: "5fad2ed714521f5d0c2d847bb3580af1",
         q_lyrics: lyrics,
         q_artist: artist,
         //f_music_genre_id: "20",
@@ -62,7 +63,7 @@ function searchSong(lyrics, artist) {
       success: function (data) {
         console.log(data);
         // Internal use
-        alert('musixmatch api: ' + data.message.header.status_code);
+        if (data.message.header.status_code != 200) alert('musixmatch api: ' + data.message.header.status_code);
 
         // Validation
         if (lyrics == "" || artist == "") {
@@ -116,14 +117,13 @@ function searchSong(lyrics, artist) {
           songs[count].previewUrl = spotifyRes.preview_url;
           songs[count].song = spotifyRes.name;
           songs[count].spotifyUrl = spotifyRes.external_urls.spotify;
+          count++;
         } else {
           // Remove song if it cannot be found in Spotify.
           songs.splice(count, 1);
           count--;
         }
-      })
-      .then(() => {
-        count++;
+
         if (count < songs.length) {
           // Recurse to add Spotify info to all songs.
           querySpotify(songs, count);
@@ -146,6 +146,7 @@ function concSpotifyArtists(artists) {
 
 function printSongs(songs, count) {
   // Prevent duplicates.
+  // TODO: check for duplicates in querySpotify to fix error.
   if (
     $(".song-title").text().includes(songs[count].song) &&
     $(".song-artist").text().includes(songs[count].artist) &&
