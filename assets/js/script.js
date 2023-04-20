@@ -148,48 +148,50 @@ function printSongs(songs, count) {
   }
 }
 
-function recentSongs(){
+searchButton.addEventListener('click', function() {
+  recentSongs();
+});
+
+function recentSongs() {
   const searchHistoryList = document.querySelector('#search-history-list');
   const lyricsSearchInput = document.querySelector('#search-lyrics');
   const artistSearchInput = document.querySelector('#search-artist');
-  //const searchButton = document.querySelector('#search-button');
-  let searchHistory = [];
+
   // Get the values from both search inputs
   const lyricsValue = lyricsSearchInput.value;
   const artistValue = artistSearchInput.value;
 
-  // Combine the values into a single label
-  let searchLabel = `${lyricsValue} - ${artistValue}`;
+  // Retrieve the search history from local storage, or create an empty array if none exists
+  const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
 
-  if (!searchHistory.includes(searchLabel)) {
-    const newButton = document.createElement('li');
-    newButton.innerText = searchLabel;
-    lyricsSearchInput.value = searchLabel.split(' - ')[0];
-    artistSearchInput.value = searchLabel.split(' - ')[1];
+  // Create an object to store the searched information
+  const searchedInfo = {
+    lyrics: lyricsValue,
+    artist: artistValue
+  };
 
+  // Add the searched info object to the search history array
+  searchHistory.push(searchedInfo);
 
-  // Check if the search label is already in the search history
-  /*if (!searchHistory.includes(searchLabel)) {
-    const newButton = document.createElement('button');
+  // Store the updated search history array in local storage
+  localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
 
-    // Set the button's label to the search label
-    newButton.innerText = searchLabel;
+  // Create a new button element with the search label
+  const newButton = document.createElement('li');
+  newButton.innerText = `${lyricsValue} - ${artistValue}`;
 
-    newButton.addEventListener('click', function() {
-      // Set the lyrics search input value to the lyrics portion of the label
-      lyricsSearchInput.value = searchLabel.split(' - ')[0];
+  // Add the button to the search history list
+  searchHistoryList.appendChild(newButton);
 
-      // Set the artist search input value to the artist portion of the label
-      artistSearchInput.value = searchLabel.split(' - ')[1];
+  // When the button is clicked, fill in the search inputs with the saved values
+  newButton.addEventListener('click', function(event) {
+    const savedInfo = JSON.parse(localStorage.getItem('searchHistory'))[event.target.id];
+    lyricsSearchInput.value = savedInfo.lyrics;
+    artistSearchInput.value = savedInfo.artist;
+  });
 
-      searchButton.click();
-    
-    });
-    */
-
-    searchHistoryList.appendChild(newButton);
-    searchHistory.push(searchLabel);
-  }
+  // Set the button's ID to the index of the search object in the search history array
+  newButton.id = searchHistory.length - 1;
 }
 
 /*searchHistory.forEach(function(searchLabel) {
