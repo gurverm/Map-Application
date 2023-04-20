@@ -48,11 +48,11 @@ function searchSong(lyrics, artist) {
         if (lyrics == "" || artist == "") {
           showModal();
           console.log("nothing");
-        } 
+        }
         else if (data.message.body.track_list.length == 0){
           showModal();
         }
-        
+
         else {
           // Clear previous search results.
           $("#search-results").empty();
@@ -78,10 +78,8 @@ function searchSong(lyrics, artist) {
   };
 
   var querySpotify = function (songs, count) {
-    // Might be better to make query more specific (also search by artist, album, etc.)
-    // But can't find song in Spotify sometimes  --Peter
-
-    let query = `track:${songs[count].song} artist:${songs[count].artist}`;
+    // Removing "feat." makes Spotify search more reliable.
+    let query = `track:${songs[count].song} artist:${songs[count].artist.replace("feat.", "")}`;
 
     fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
       headers: {
@@ -183,7 +181,7 @@ function recentSongs(){
       artistSearchInput.value = searchLabel.split(' - ')[1];
 
       searchButton.click();
-    
+
     });
     */
 
