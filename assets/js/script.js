@@ -47,8 +47,8 @@ function searchSong(lyrics, artist) {
       type: "GET",
       data: {
         // Marek's API key... stopped working for Peter for some reason
-        apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
-        // apikey: "d74273e06e4dea74340b05375a6c9bd3",
+        // apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
+        apikey: "d74273e06e4dea74340b05375a6c9bd3",
         q_lyrics: lyrics,
         q_artist: artist,
         //f_music_genre_id: "20",
@@ -61,10 +61,12 @@ function searchSong(lyrics, artist) {
       contentType: "application/json",
       success: function (data) {
         console.log(data);
+        // Internal use
+        alert('musixmatch api: ' + data.message.header.status_code);
+
         // Validation
         if (lyrics == "" || artist == "") {
           showModal();
-          console.log("nothing");
         } else if (data.message.body.track_list.length == 0) {
           showModal();
         } else {
@@ -200,8 +202,8 @@ function printSongs(songs, count) {
             </ul>
             <audio controls src="${songs[count].previewUrl}" class="block rounded-full m-3"></audio>
           </div>
-          <div class="flex justify-around items-center m-2 my-5 lg:w-full">
-            <a href="${songs[count].spotifyUrl}" target="_blank" class="lg:text-6xl m-2 hover:text-green-600"><i class="fa-brands fa-spotify fa-2xl"></i></a>
+          <div class="flex justify-around items-center m-2 my-5 w-full">
+            <a href="${songs[count].spotifyUrl}" target="_blank" class="text-6xl m-2 w-auto hover:text-green-600"><i class="fa-brands fa-spotify fa-2xl"></i></a>
           </div>
         </div>
       </div>
