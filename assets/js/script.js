@@ -198,10 +198,10 @@ function printSongs(songs, count) {
                 <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
               </li>
             </ul>
+            <audio controls src="${songs[count].previewUrl}" class="block rounded-full m-3"></audio>
           </div>
-          <div class="flex justify-around items-center m-2 my-5 w-full">
-            <a href="${songs[count].previewUrl}" class="text-2xl"><i class="fa-solid fa-circle-play fa-2xl"></i></a>
-            <a href="${songs[count].spotifyUrl}" target="_blank" class="text-2xl"><i class="fa-brands fa-spotify fa-2xl"></i></a>
+          <div class="flex justify-around items-center m-2 my-5 lg:w-full">
+            <a href="${songs[count].spotifyUrl}" target="_blank" class="lg:text-6xl m-2 hover:text-green-600"><i class="fa-brands fa-spotify fa-2xl"></i></a>
           </div>
         </div>
       </div>
