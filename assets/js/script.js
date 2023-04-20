@@ -105,7 +105,6 @@ function searchSong(lyrics, artist) {
         const spotifyRes = data.tracks.items[0];
 
         if (spotifyRes) {
-          songs[count].spotifyId = spotifyRes.id;
           songs[count].album = spotifyRes.album.name;
           songs[count].artist = concSpotifyArtists(spotifyRes.artists);
           songs[count].cover = spotifyRes.album.images[1].url;
@@ -144,6 +143,16 @@ function concSpotifyArtists(artists) {
 }
 
 function printSongs(songs, count) {
+  // Prevent duplicates.
+  if (
+    $(".song-title").text().includes(songs[count].song) &&
+    $(".song-artist").text().includes(songs[count].artist) &&
+    $(".song-album").text().includes(songs[count].album)
+  ) {
+    count++
+    printSongs(songs, count)
+  }
+
   let explicit;
   let popularity;
   // To display duration in m:ss.
@@ -177,15 +186,15 @@ function printSongs(songs, count) {
       alt="Album cover for ${songs[count].album}"
       class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
       <div class="flex flex-col m-2 w-full">
-        <h4 class="m-2 mb-0 text-2xl">${songs[count].song}</h4>
+        <h4 class="song-title m-2 mb-0 text-2xl">${songs[count].song}</h4>
         <div class="flex flex-col justify-between lg:flex-row">
           <div class="w-full">
             <span class="text-xl">${popularity}${formatDuration(songs[count].duration)}${explicit}</span>
             <ul class= "m-2">
-              <li class="text-xl my-1">
+              <li class="song-artist text-xl my-1">
                 <i class="fa-solid fa-circle-user"></i> ${songs[count].artist}
               </li>
-              <li class="text-xl">
+              <li class="song-album text-xl">
                 <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
               </li>
             </ul>
@@ -199,11 +208,11 @@ function printSongs(songs, count) {
     </div>
   `);
 
-    if (count < songs.length - 1) {
-      count++;
-      // Recurse to add Spotify info to all songs.
-      printSongs(songs, count);
-    }
+  if (count < songs.length - 1) {
+    count++;
+    // Recurse to add Spotify info to all songs.
+    printSongs(songs, count);
+  }
 }
 
 function recentSongs() {
