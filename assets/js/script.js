@@ -23,14 +23,29 @@ function searchSong(lyrics, artist) {
       });
   })();
 
+  var formatQuery = function (list) {
+    let query = `track:${list.song}%20artist:${list.artist}%20album:${list.album}`;
+
+    return (
+      query
+        // Make Spotify search more reliable. --Peter
+        // Tweak formatting as needed.
+        .replaceAll("feat. ", "")
+        .replaceAll(" (Remastered)", "")
+        .replaceAll(" [Edited Version]", "")
+        .replaceAll(" Version", "")
+        .replaceAll("'", "")
+    );
+  };
+
   var queryMusixmatch = function () {
-    // Marek's API key... stopped working for Peter for some reason
-    // apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
     let musixmatchData = [];
 
     $.ajax({
       type: "GET",
       data: {
+        // Marek's API key... stopped working for Peter for some reason
+        // apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
         apikey: "d74273e06e4dea74340b05375a6c9bd3",
         q_lyrics: lyrics,
         q_artist: artist,
@@ -48,19 +63,15 @@ function searchSong(lyrics, artist) {
         if (lyrics == "" || artist == "") {
           showModal();
           console.log("nothing");
-        }
-        else if (data.message.body.track_list.length == 0){
+        } else if (data.message.body.track_list.length == 0) {
           showModal();
-        }
-
-        else {
+        } else {
           // Clear previous search results.
           $("#search-results").empty();
 
           // Populate search results.
           for (res of data.message.body.track_list) {
             musixmatchData.push({
-              id: res.track.track_id,
               song: res.track.track_name,
               artist: res.track.artist_name,
               album: res.track.album_name,
@@ -78,14 +89,16 @@ function searchSong(lyrics, artist) {
   };
 
   var querySpotify = function (songs, count) {
-    // Removing "feat." makes Spotify search more reliable.
-    let query = `track:${songs[count].song} artist:${songs[count].artist.replace("feat.", "")}`;
-
-    fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
-      headers: {
-        Authorization: `Bearer ${spotifyAccessToken}`,
-      },
-    })
+    fetch(
+      `https://api.spotify.com/v1/search?q=${formatQuery(
+        songs[count]
+      )}&type=track`,
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyAccessToken}`,
+        },
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         let spotifyRes = data.tracks.items[0];
@@ -117,7 +130,7 @@ function printSongs(songs, count) {
   // TODO: Update appearance here. --Peter
   $("#search-results").append(`
     <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-500 md:flex-row">
-      <img src="${songs[count].cover}" alt="Album cover for '${songs[count].album}' is unavailable" class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
+      <img src="${songs[count].cover}" alt="Album cover for ${songs[count].album}" class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
         <ul class= "m-2">
           <li class="text-2xl">
             ${songs[count].song}
@@ -146,10 +159,10 @@ function printSongs(songs, count) {
   }
 }
 
-function recentSongs(){
-  const searchHistoryList = document.querySelector('#search-history-list');
-  const lyricsSearchInput = document.querySelector('#search-lyrics');
-  const artistSearchInput = document.querySelector('#search-artist');
+function recentSongs() {
+  const searchHistoryList = document.querySelector("#search-history-list");
+  const lyricsSearchInput = document.querySelector("#search-lyrics");
+  const artistSearchInput = document.querySelector("#search-artist");
   //const searchButton = document.querySelector('#search-button');
   let searchHistory = [];
   // Get the values from both search inputs
@@ -160,14 +173,13 @@ function recentSongs(){
   let searchLabel = `${lyricsValue} - ${artistValue}`;
 
   if (!searchHistory.includes(searchLabel)) {
-    const newButton = document.createElement('li');
+    const newButton = document.createElement("li");
     newButton.innerText = searchLabel;
-    lyricsSearchInput.value = searchLabel.split(' - ')[0];
-    artistSearchInput.value = searchLabel.split(' - ')[1];
+    lyricsSearchInput.value = searchLabel.split(" - ")[0];
+    artistSearchInput.value = searchLabel.split(" - ")[1];
 
-
-  // Check if the search label is already in the search history
-  /*if (!searchHistory.includes(searchLabel)) {
+    // Check if the search label is already in the search history
+    /*if (!searchHistory.includes(searchLabel)) {
     const newButton = document.createElement('button');
 
     // Set the button's label to the search label
@@ -203,17 +215,18 @@ function recentSongs(){
 
 //}
 
-
 $(function () {
   //const modal = document.querySelector('.relative');
   //hideModal();
   $("#search-form").on("submit", function (e) {
     e.preventDefault();
 
-    searchSong($("#search-lyrics").val(), $("#search-artist").val());
+    searchSong(
+      $("#search-lyrics").val().trim(),
+      $("#search-artist").val().trim()
+    );
   });
 });
-
 
 function showModal() {
   var modal = $("#modal");
@@ -223,5 +236,3 @@ function showModal() {
     modal.attr("hidden", "");
   });
 }
-
-
