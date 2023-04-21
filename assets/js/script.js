@@ -84,8 +84,11 @@ function searchSong(lyrics, artist) {
         // Make Spotify search more reliable.
         .replaceAll(" (Remastered)", "")
         .replaceAll(" [Edited Version]", "")
+        .replaceAll(" Clean", "")
+        .replaceAll(" Explicit", "")
         .replaceAll(" Version", "")
         .replaceAll("feat. ", "")
+        .replaceAll("and ", "")
         .replaceAll("- ", "")
         .replaceAll("& ", "")
         .replaceAll("'", "")
@@ -156,7 +159,7 @@ function printSongs(songs) {
   };
   // To display explicit icon if true.
   const getExplicitIcon = function (isExplicit) {
-    return isExplicit ? '<i class="fa-solid fa-xmarks-lines mx-2 text-red-800 align-middle"></i>' : '';
+    return isExplicit ? '<i class="fa-solid fa-xmarks-lines mx-2 text-red-800 dark:text-red-500 align-middle"></i>' : '';
   };
   // To display popularity icon.
   const getPopularityIcon = function (popularity) {
@@ -185,14 +188,17 @@ function printSongs(songs) {
     popularity = getPopularityIcon(song.popularity);
 
   $("#search-results").append(`
-    <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-500 md:flex-row z-10">
+    <!-- Search result container -->
+    <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-600 dark:text-slate-300 md:flex-row z-10 overflow-hidden">
       <img src="${song.cover}"
       alt="Album cover for ${song.album}"
       class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
-      <div class="flex flex-col m-2">
-        <h4 class="song-title m-2 mb-0 text-2xl">${song.song}</h4>
-        <div class="flex flex-col justify-between lg:flex-row">
-          <div class="w-full">
+
+      <div class="flex flex-col justify-between m-2 w-full object-contain">
+        <div class="flex flex-col sm:flex-row sm:justify-between">
+          <!-- Song title and details -->
+          <div>
+            <h4 class="song-title m-2 mb-0 text-2xl">${song.song}</h4>
             <span class="text-xl">${popularity}${formatDuration(song.duration)}${explicit}</span>
             <ul class= "m-2">
               <li class="song-artist text-xl my-1">
@@ -202,18 +208,14 @@ function printSongs(songs) {
                 <i class="fa-solid fa-compact-disc"></i> ${song.album}
               </li>
             </ul>
-            <audio controls src="${song.previewUrl}" class="block rounded-full m-2"></audio>
           </div>
-          <div class="flex items-center m-2">
-            <a href="${song.spotifyUrl}" target="_blank"
-            after="Open in Spotify"
-            class="lg:text-4xl text-2xl
-            w-auto hover:text-green-600
-            lg:after:content-[''] after:content-[attr(after)]">
-              <i class="fa-brands fa-spotify fa-2xl"></i>
-            </a>
-          </div>
+          <!-- Spotify tile -->
+          <a href="${song.spotifyUrl}" target="_blank" class="sm:mx-2 mx-auto hover:text-green-600 dark:hover:text-green-400">
+            <i class="fa-brands fa-spotify m-4 mx-6 fa-2xl text-6xl"></i>
+          </a>
         </div>
+        <!-- Preview -->
+        <audio controls src="${song.previewUrl}" class="block rounded-full m-2 ml-4 mr-7"></audio>
       </div>
     </div>
   `);
