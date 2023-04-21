@@ -23,23 +23,6 @@ function searchSong(lyrics, artist) {
       });
   })();
 
-  const formatQuery = function (list) {
-    let query = `track:${list.song}%20artist:${list.artist}%20album:${list.album}`;
-
-    return (
-      query
-        // Make Spotify search more reliable.
-        .replaceAll(" (Remastered)", "")
-        .replaceAll(" [Edited Version]", "")
-        .replaceAll(" Version", "")
-        .replaceAll("feat. ", "")
-        .replaceAll("- ", "")
-        .replaceAll("& ", "")
-        .replaceAll("'", "")
-        .replaceAll('"', "")
-    );
-  };
-
   var queryMusixmatch = function () {
     let musixmatchData = [];
 
@@ -93,7 +76,24 @@ function searchSong(lyrics, artist) {
     });
   };
 
-  var querySpotify = function (songs, count) {
+  const formatQuery = function (list) {
+    let query = `track:${list.song}%20artist:${list.artist}%20album:${list.album}`;
+
+    return (
+      query
+        // Make Spotify search more reliable.
+        .replaceAll(" (Remastered)", "")
+        .replaceAll(" [Edited Version]", "")
+        .replaceAll(" Version", "")
+        .replaceAll("feat. ", "")
+        .replaceAll("- ", "")
+        .replaceAll("& ", "")
+        .replaceAll("'", "")
+        .replaceAll('"', "")
+    );
+  };
+
+  const querySpotify = function (songs, count) {
     fetch(
       `https://api.spotify.com/v1/search?q=${formatQuery(songs[count])}
       &type=track&limit=1`,
@@ -229,6 +229,7 @@ function showModal() {
   });
 }
 
+// Core application
 $(function () {
   if (localStorage.getItem('search') != null) {
     displaySongs();
