@@ -222,6 +222,7 @@ function printSongs(songs) {
     </div>
   `);
   }
+  $("body").removeClass("h-screen");
   $("#search-button").removeClass("loading");
 }
 
