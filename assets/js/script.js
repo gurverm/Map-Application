@@ -30,8 +30,8 @@ function searchSong(lyrics, artist) {
       type: "GET",
       data: {
         // Marek's API key... stopped working for Peter for some reason
-        apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
-        // apikey: "d74273e06e4dea74340b05375a6c9bd3",
+        // apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
+        apikey: "d74273e06e4dea74340b05375a6c9bd3",
         // apikey: "5fad2ed714521f5d0c2d847bb3580af1",
         q_lyrics: lyrics,
         q_artist: artist,
@@ -189,7 +189,7 @@ function printSongs(songs) {
 
   $("#search-results").append(`
     <!-- Search result container -->
-    <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-600 dark:text-slate-300 md:flex-row z-10 overflow-hidden">
+    <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-600 dark:text-slate-300 md:flex-row overflow-hidden">
       <img src="${song.cover}"
       alt="Album cover for ${song.album}"
       class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
@@ -210,9 +210,11 @@ function printSongs(songs) {
             </ul>
           </div>
           <!-- Spotify tile -->
-          <a href="${song.spotifyUrl}" target="_blank" class="sm:mx-2 mx-auto hover:text-green-600 dark:hover:text-green-400">
-            <i class="fa-brands fa-spotify m-4 mx-6 fa-2xl text-6xl"></i>
-          </a>
+          <div>
+            <a href="${song.spotifyUrl}" target="_blank" class="sm:mx-2 mx-auto h-auto hover:text-success">
+              <i class="fa-brands fa-spotify m-4 mx-6 fa-2xl text-6xl"></i>
+            </a>
+          </div>
         </div>
         <!-- Preview -->
         <audio controls src="${song.previewUrl}" class="block rounded-full m-2 ml-4 mr-7"></audio>
@@ -220,6 +222,7 @@ function printSongs(songs) {
     </div>
   `);
   }
+  $("#search-button").removeClass("loading");
 }
 
 function showModal() {
@@ -228,21 +231,23 @@ function showModal() {
   modal.removeAttr("hidden");
   continueButton.click(function () {
   modal.attr("hidden", "");
+  $("#search-button").removeClass("loading");
   });
 }
 
-// Core application
+// Core functionality starts here.
 $(function () {
   if (localStorage.getItem('search') != null) {
     displaySongs();
   }
   $("#search-form").on("submit", function (e) {
     e.preventDefault();
-
     searchSong(
       $("#search-lyrics").val().trim(),
       $("#search-artist").val().trim()
     );
+    // Show loading spinner.
+    $("#search-button").addClass("loading");
   });
 });
 
