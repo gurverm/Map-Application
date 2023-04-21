@@ -189,7 +189,7 @@ function printSongs(songs) {
 
   $("#search-results").append(`
     <!-- Search result container -->
-    <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-600 dark:text-slate-300 md:flex-row overflow-hidden">
+    <div class="m-4 flex flex-col rounded-lg bg-slate-200 shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-600 dark:text-slate-300 md:flex-row overflow-hidden">
       <img src="${song.cover}"
       alt="Album cover for ${song.album}"
       class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
