@@ -113,7 +113,7 @@ function searchSong(lyrics, artist) {
         if (spotifyRes) {
           songs[count].album = spotifyRes.album.name;
           songs[count].artist = concSpotifyArtists(spotifyRes.artists);
-          songs[count].cover = spotifyRes.album.images[1].url;
+          songs[count].cover = spotifyRes.album.images[0].url;
           songs[count].duration = spotifyRes.duration_ms;
           songs[count].explicit = spotifyRes.explicit;
           songs[count].popularity = spotifyRes.popularity;
@@ -210,8 +210,8 @@ function printSongs(songs) {
             </ul>
           </div>
           <!-- Spotify tile -->
-          <div>
-            <a href="${song.spotifyUrl}" target="_blank" class="sm:mx-2 mx-auto h-auto hover:text-success">
+          <div class="flex">
+            <a href="${song.spotifyUrl}" target="_blank" class="mx-auto hover:text-success">
               <i class="fa-brands fa-spotify m-4 mx-6 fa-2xl text-6xl"></i>
             </a>
           </div>
