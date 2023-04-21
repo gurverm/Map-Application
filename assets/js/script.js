@@ -233,9 +233,9 @@ function printSongs(songs, count) {
 }
 
 
-searchButton.addEventListener('click', function() {
-  recentSongs();
-});
+// searchButton.addEventListener('click', function() {
+//   recentSongs();
+// });
 
 function recentSongs() {
   const searchHistoryList = document.querySelector('#search-history-list');
