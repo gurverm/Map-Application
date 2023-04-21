@@ -117,6 +117,14 @@ function searchSong(lyrics, artist) {
           songs[count].previewUrl = spotifyRes.preview_url;
           songs[count].song = spotifyRes.name;
           songs[count].spotifyUrl = spotifyRes.external_urls.spotify;
+
+          fetch('https://api.spotify.com/v1/me/player/volume?volume_percent=50', {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ${spotifyAccessToken}`
+          }
+        });
+
           count++;
         } else {
           // Remove song if it cannot be found in Spotify.
@@ -223,6 +231,7 @@ function printSongs(songs, count) {
     printSongs(songs, count);
   }
 }
+
 
 
 //searchButton.addEventListener('click', function() {
