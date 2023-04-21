@@ -23,7 +23,7 @@ function searchSong(lyrics, artist) {
       });
   })();
 
-  var formatQuery = function (list) {
+  const formatQuery = function (list) {
     let query = `track:${list.song}%20artist:${list.artist}%20album:${list.album}`;
 
     return (
@@ -117,14 +117,6 @@ function searchSong(lyrics, artist) {
           songs[count].previewUrl = spotifyRes.preview_url;
           songs[count].song = spotifyRes.name;
           songs[count].spotifyUrl = spotifyRes.external_urls.spotify;
-
-          fetch('https://api.spotify.com/v1/me/player/volume?volume_percent=50', {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${spotifyAccessToken}`
-          }
-        });
-
           count++;
         } else {
           // Remove song if it cannot be found in Spotify.
@@ -152,22 +144,11 @@ function concSpotifyArtists(artists) {
   return concArtists;
 }
 
-function printSongs(songs, count) {
-  // Prevent duplicates.
-  // TODO: check for duplicates in querySpotify to fix error.
-  if (
-    $(".song-title").text().includes(songs[count].song) &&
-    $(".song-artist").text().includes(songs[count].artist) &&
-    $(".song-album").text().includes(songs[count].album)
-  ) {
-    count++
-    printSongs(songs, count)
-  }
-
+function printSongs(songs) {
   let explicit;
   let popularity;
   // To display duration in m:ss.
-  var formatDuration = function (ms) {
+  const formatDuration = function (ms) {
     const min = Math.floor((ms / 60000) % 60);
     const sec = Math.floor((ms / 1000) % 60)
       .toString()
@@ -175,44 +156,61 @@ function printSongs(songs, count) {
     return `<span class="mx-2 font-mono align-middle">${min}:${sec}</span>`;
   };
   // To display explicit icon if true.
-  if (songs[count].explicit) {
-    explicit = '<i class="fa-solid fa-xmarks-lines mx-2 text-red-800 align-middle"></i>';
-  } else {
-    explicit = "";
-  }
+  const getExplicitIcon = function (isExplicit) {
+    return isExplicit ? '<i class="fa-solid fa-xmarks-lines mx-2 text-red-800 align-middle"></i>' : '';
+  };
   // To display popularity icon.
-  if (songs[count].popularity >= 75) {
-    popularity = '<i class="fa-solid fa-temperature-full mx-2 text-3xl align-middle"></i>';
-  } else if (songs[count].popularity >= 50) {
-    popularity = '<i class="fa-solid fa-temperature-three-quarters mx-2 text-3xl align-middle"></i>'
-  } else if (songs[count].popularity >= 25) {
-    popularity = '<i class="fa-solid fa-temperature-quarter mx-2 text-3xl align-middle"></i>'
-  } else {
-    popularity = '<i class="fa-solid fa-temperature-empty mx-2 text-3xl align-middle"></i>';
-  }
+  const getPopularityIcon = function (popularity) {
+    if (popularity >= 75) {
+      return '<i class="fa-solid fa-temperature-full mx-2 text-3xl align-middle"></i>';
+    } else if (popularity >= 50) {
+      return '<i class="fa-solid fa-temperature-three-quarters mx-2 text-3xl align-middle"></i>';
+    } else if (popularity >= 25) {
+      return '<i class="fa-solid fa-temperature-quarter mx-2 text-3xl align-middle"></i>';
+    } else {
+      return '<i class="fa-solid fa-temperature-empty mx-2 text-3xl align-middle"></i>';
+    }
+  };
+
+  const $songTitle = $(".song-title");
+  const $songArtist = $(".song-artist");
+  const $songAlbum = $(".song-album");
+
+  for (let song of songs) {
+    // Prevent duplicates.
+    if (
+      $songTitle.text().includes(song.song) &&
+      $songArtist.text().includes(song.artist) &&
+      $songAlbum.text().includes(song.album)
+    ) {
+      continue;
+    }
+
+    explicit = getExplicitIcon(song.explicit);
+    popularity = getPopularityIcon(song.popularity);
 
   $("#search-results").append(`
     <div class="m-4 flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-500 md:flex-row z-10">
-      <img src="${songs[count].cover}"
-      alt="Album cover for ${songs[count].album}"
+      <img src="${song.cover}"
+      alt="Album cover for ${song.album}"
       class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
       <div class="flex flex-col m-2">
-        <h4 class="song-title m-2 mb-0 text-2xl">${songs[count].song}</h4>
+        <h4 class="song-title m-2 mb-0 text-2xl">${song.song}</h4>
         <div class="flex flex-col justify-between lg:flex-row">
           <div class="w-full">
-            <span class="text-xl">${popularity}${formatDuration(songs[count].duration)}${explicit}</span>
+            <span class="text-xl">${popularity}${formatDuration(song.duration)}${explicit}</span>
             <ul class= "m-2">
               <li class="song-artist text-xl my-1">
-                <i class="fa-solid fa-circle-user"></i> ${songs[count].artist}
+                <i class="fa-solid fa-circle-user"></i> ${song.artist}
               </li>
               <li class="song-album text-xl">
-                <i class="fa-solid fa-compact-disc"></i> ${songs[count].album}
+                <i class="fa-solid fa-compact-disc"></i> ${song.album}
               </li>
             </ul>
-            <audio controls src="${songs[count].previewUrl}" class="block rounded-full m-2"></audio>
+            <audio controls src="${song.previewUrl}" class="block rounded-full m-2"></audio>
           </div>
           <div class="flex items-center m-2">
-            <a href="${songs[count].spotifyUrl}" target="_blank"
+            <a href="${song.spotifyUrl}" target="_blank"
             after="Open in Spotify"
             class="lg:text-4xl text-2xl
             w-auto hover:text-green-600
@@ -224,11 +222,6 @@ function printSongs(songs, count) {
       </div>
     </div>
   `);
-
-  if (count < songs.length - 1) {
-    count++;
-    // Recurse to add Spotify info to all songs.
-    printSongs(songs, count);
   }
 }
 
@@ -255,7 +248,7 @@ function printSongs(songs, count) {
     lyrics: lyricsValue,
     artist: artistValue
   };
-  
+
 
   // Add the searched info object to the search history array
   searchHistory.push(searchedInfo);
@@ -294,7 +287,14 @@ function printSongs(songs, count) {
 });*/
 
 //}
-
+function showModal() {
+  var modal = $("#modal");
+  let continueButton = $("#continueButton");
+  modal.removeAttr("hidden");
+  continueButton.click(function () {
+    modal.attr("hidden", "");
+  });
+}
 
 $(function () {
   //const modal = document.querySelector('.relative');
@@ -313,12 +313,5 @@ $(function () {
   });
 });
 
-function showModal() {
-  var modal = $("#modal");
-  let continueButton = $("#continueButton");
-  modal.removeAttr("hidden");
-  continueButton.click(function () {
-    modal.attr("hidden", "");
-  });
-}
+
 
