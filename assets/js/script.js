@@ -47,9 +47,9 @@ function searchSong(lyrics, artist) {
       type: "GET",
       data: {
         // Marek's API key... stopped working for Peter for some reason
-        // apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
+        apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
         // apikey: "d74273e06e4dea74340b05375a6c9bd3",
-        apikey: "5fad2ed714521f5d0c2d847bb3580af1",
+        // apikey: "5fad2ed714521f5d0c2d847bb3580af1",
         q_lyrics: lyrics,
         q_artist: artist,
         //f_music_genre_id: "20",
@@ -121,7 +121,6 @@ function searchSong(lyrics, artist) {
         } else {
           // Remove song if it cannot be found in Spotify.
           songs.splice(count, 1);
-          count--;
         }
 
         if (count < songs.length) {
