@@ -171,16 +171,12 @@ function printSongs(songs) {
     }
   };
 
-  const $songTitle = $(".song-title");
-  const $songArtist = $(".song-artist");
-  const $songAlbum = $(".song-album");
-
   for (let song of songs) {
     // Prevent duplicates.
     if (
-      $songTitle.text().includes(song.song) &&
-      $songArtist.text().includes(song.artist) &&
-      $songAlbum.text().includes(song.album)
+      $(".song-title").text().includes(song.song) &&
+      $(".song-artist").text().includes(song.artist) &&
+      $(".song-album").text().includes(song.album)
     ) {
       continue;
     }
@@ -224,81 +220,16 @@ function printSongs(songs) {
   }
 }
 
-
-
-//searchButton.addEventListener('click', function() {
-  //recentSongs();
-//});
-
-/*function recentSongs() {
-  const searchHistoryList = document.querySelector('#search-history-list');
-  const lyricsSearchInput = document.querySelector('#search-lyrics');
-  const artistSearchInput = document.querySelector('#search-artist');
-
-  // Get the values from both search inputs
-  const lyricsValue = lyricsSearchInput.value;
-  const artistValue = artistSearchInput.value;
-
-  // Retrieve the search history from local storage, or create an empty array if none exists
-  const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-
-  // Create an object to store the searched information
-  const searchedInfo = {
-    lyrics: lyricsValue,
-    artist: artistValue
-  };
-
-
-  // Add the searched info object to the search history array
-  searchHistory.push(searchedInfo);
-
-
-  // Store the updated search history array in local storage
-  localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-
-  // Create a new button element with the search label
-  const newButton = document.createElement('li');
-  newButton.innerText = `${lyricsValue} - ${artistValue}`;
-
-  // Add the button to the search history list
-  searchHistoryList.appendChild(newButton);
-
-  // When the button is clicked, fill in the search inputs with the saved values
-  /* newButton.addEventListener('click', function(event) {
-    const savedInfo = JSON.parse(localStorage.getItem('searchHistory'))[event.target.id];
-    lyricsSearchInput.value = savedInfo.lyrics;
-    artistSearchInput.value = savedInfo.artist;
-  });
-
-  // Set the button's ID to the index of the search object in the search history array
-  newButton.id = searchHistory.length - 1;
-}
-
-/*searchHistory.forEach(function(searchLabel) {
-  const newButton = document.createElement('button');
-  newButton.innerText = searchLabel;
-  newButton.addEventListener('click', function() {
-    lyricsSearchInput.value = searchLabel.split(' - ')[0];
-    artistSearchInput.value = searchLabel.split(' - ')[1];
-    searchButton.click();
-  });
-  searchHistoryList.appendChild(newButton);
-});*/
-
-//}
 function showModal() {
   var modal = $("#modal");
   let continueButton = $("#continueButton");
   modal.removeAttr("hidden");
   continueButton.click(function () {
-    modal.attr("hidden", "");
+  modal.attr("hidden", "");
   });
 }
 
 $(function () {
-  //const modal = document.querySelector('.relative');
-  //localStorage.clear();
-  console.log(localStorage.getItem('search'));
   if (localStorage.getItem('search') != null) {
     displaySongs();
   }

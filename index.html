@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="./assets/css/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/5f4c03ee38.js" crossorigin="anonymous"></script>
   <title>LYK Song: Search For Songs By Lyrics.</title>
@@ -77,6 +78,14 @@
 
 
     <!-- <main> -->
+      <div class="dropdown">
+        <label tabindex="0" class="btn m-1">Click</label>
+        <ul tabindex="0" id="search-history-list" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a>Item 1</a></li>
+          <li><a>Item 2</a></li>
+        </ul>
+      </div>
+
       <section>
         <div id="recent-searches" class="bg-white p-4">
           <h3 class="text-l font-medium">Recent searches</h3>
