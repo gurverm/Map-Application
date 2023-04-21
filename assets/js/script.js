@@ -225,11 +225,11 @@ function printSongs(songs, count) {
 }
 
 
-searchButton.addEventListener('click', function() {
-  recentSongs();
-});
+//searchButton.addEventListener('click', function() {
+  //recentSongs();
+//});
 
-function recentSongs() {
+/*function recentSongs() {
   const searchHistoryList = document.querySelector('#search-history-list');
   const lyricsSearchInput = document.querySelector('#search-lyrics');
   const artistSearchInput = document.querySelector('#search-artist');
@@ -246,6 +246,7 @@ function recentSongs() {
     lyrics: lyricsValue,
     artist: artistValue
   };
+  
 
   // Add the searched info object to the search history array
   searchHistory.push(searchedInfo);
@@ -262,7 +263,7 @@ function recentSongs() {
   searchHistoryList.appendChild(newButton);
 
   // When the button is clicked, fill in the search inputs with the saved values
-  newButton.addEventListener('click', function(event) {
+  /* newButton.addEventListener('click', function(event) {
     const savedInfo = JSON.parse(localStorage.getItem('searchHistory'))[event.target.id];
     lyricsSearchInput.value = savedInfo.lyrics;
     artistSearchInput.value = savedInfo.artist;
@@ -285,9 +286,14 @@ function recentSongs() {
 
 //}
 
+
 $(function () {
   //const modal = document.querySelector('.relative');
-  //hideModal();
+  //localStorage.clear();
+  console.log(localStorage.getItem('search'));
+  if (localStorage.getItem('search') != null) {
+    displaySongs();
+  }
   $("#search-form").on("submit", function (e) {
     e.preventDefault();
 
@@ -306,3 +312,4 @@ function showModal() {
     modal.attr("hidden", "");
   });
 }
+
