@@ -23,7 +23,7 @@ function displaySongs(){
     $("#search-history-list li").empty();
     $("#no-history").remove();
 
-    for (let i = 0; i < JSON.parse(localStorage.getItem('search')).length; i++){
+    for (let i = 0; i < searchHistory.length; i++){
         const newSearch = $('#' + String(i));
         newSearch.append(`
             <button type="button">${searchHistory[i]}</button>
