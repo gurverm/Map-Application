@@ -1,16 +1,16 @@
+var searchHistory = [];
+
 function recentSongs() {
     const lyricsValue = $('#search-lyrics').val();
     const artistValue = $('#search-artist').val();
-    const searchInfo = lyricsValue + ", " + artistValue;
+    const searchInfo = lyricsValue + " ⫶ " + artistValue;
     const storedVal = JSON.parse(localStorage.getItem('search'));
-    let searchHistory = [];
-  
+
     // Retrieve the search history from local storage, or create an empty array if none exist
     if (storedVal == null){
         searchHistory = [searchInfo];
         localStorage.setItem('search', JSON.stringify(searchHistory));
-        console.log("does this 1");
-        $("#0").text(searchHistory[0]);
+        // $("#0").text(searchHistory[0]);
     }
     else if (!storedVal.includes(searchInfo)){
         searchHistory = storedVal;
@@ -22,19 +22,25 @@ function recentSongs() {
         }
 
         localStorage.setItem('search', JSON.stringify(searchHistory));
-  
-        // Create a new button element with the search label
-        for (let i = 0; i < searchHistory.length; i++){
-            const newSearch = $('#' + String(i));
-            newSearch.text(searchHistory[i]);
-        }
+
+        displaySongs();
+
+        // // Create a new button element with the search label
+        // for (let i = 0; i < searchHistory.length; i++){
+        //     const newSearch = $('#' + String(i));
+        //     newSearch.append(`<button>${searchHistory[i]}</button>`);
+        //     newSearch.removeClass("hidden");
+        // }
     }
 }
 
 function displaySongs(){
-    const searchHistory = JSON.parse(localStorage.getItem('search'));
-    for (let i = 0; i < searchHistory.length; i++){
+    searchHistory = JSON.parse(localStorage.getItem('search'));
+    for (let i = 0; i < JSON.parse(localStorage.getItem('search')).length; i++){
         const newSearch = $('#' + String(i));
-        newSearch.text(searchHistory[i]);
+        newSearch.append(`
+            <button type="button">${searchHistory[i]}</button>
+        `);
+        newSearch.removeClass("hidden")
     }
 }

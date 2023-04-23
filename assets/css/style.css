@@ -1,4 +1,5 @@
-body {
+body,
+ul {
   font-family: 'Fira Sans Condensed', sans-serif;
   font-weight: 400;
 }

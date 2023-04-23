@@ -1,6 +1,8 @@
 function searchSong(lyrics, artist) {
   var spotifyAccessToken;
 
+  showLoading(1);
+
   (function getSpotifyAccess() {
     // Execute immediately.
     const clientId = "d1f4e5778128411caa0f75e77acc0c35";
@@ -31,8 +33,8 @@ function searchSong(lyrics, artist) {
       data: {
         // Marek's API key... stopped working for Peter for some reason
         // apikey: "8aeb7ff0f51f21a364a803d7a9db035f",
-        apikey: "d74273e06e4dea74340b05375a6c9bd3",
-        // apikey: "5fad2ed714521f5d0c2d847bb3580af1",
+        // apikey: "d74273e06e4dea74340b05375a6c9bd3",
+        apikey: "5fad2ed714521f5d0c2d847bb3580af1",
         q_lyrics: lyrics,
         q_artist: artist,
         //f_music_genre_id: "20",
@@ -150,7 +152,7 @@ function printSongs(songs) {
   let explicit;
   let popularity;
   // To display duration in m:ss.
-  const formatDuration = function (ms) {
+  const getDuration = function (ms) {
     const min = Math.floor((ms / 60000) % 60);
     const sec = Math.floor((ms / 1000) % 60)
       .toString()
@@ -192,14 +194,14 @@ function printSongs(songs) {
     <div class="m-4 flex flex-col rounded-lg bg-slate-200 shadow-[0_2px_15px_-3px_#334155,0_10px_20px_-2px_#334155] dark:bg-slate-600 dark:text-slate-300 md:flex-row overflow-hidden">
       <img src="${song.cover}"
       alt="Album cover for ${song.album}"
-      class="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
+      class="h-48 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg">
 
-      <div class="flex flex-col justify-between m-2 w-full object-contain">
-        <div class="flex flex-col sm:flex-row sm:justify-between">
+      <div class="flex flex-col justify-between m-2 pr-4 w-full object-contain">
+        <div class="flex flex-row justify-between">
           <!-- Song title and details -->
           <div>
             <h4 class="song-title m-2 mb-0 text-2xl">${song.song}</h4>
-            <span class="text-xl">${popularity}${formatDuration(song.duration)}${explicit}</span>
+            <span class="text-xl">${popularity}${getDuration(song.duration)}${explicit}</span>
             <ul class= "m-2">
               <li class="song-artist text-xl my-1">
                 <i class="fa-solid fa-circle-user"></i> ${song.artist}
@@ -212,18 +214,17 @@ function printSongs(songs) {
           <!-- Spotify tile -->
           <div class="flex">
             <a href="${song.spotifyUrl}" target="_blank" class="mx-auto hover:text-success">
-              <i class="fa-brands fa-spotify m-4 mx-6 fa-2xl text-6xl"></i>
+              <i class="fa-brands fa-spotify mx-2 my-3 fa-2xl text-6xl"></i>
             </a>
           </div>
         </div>
         <!-- Preview -->
-        <audio controls src="${song.previewUrl}" class="block rounded-full m-2 ml-4 mr-7"></audio>
+        <audio controls src="${song.previewUrl}" class="block rounded-full m-2 ml-4 mr-4"></audio>
       </div>
     </div>
   `);
   }
-  $("body").removeClass("h-screen");
-  $("#search-button").removeClass("loading");
+  showLoading(0);
 }
 
 function showModal() {
@@ -232,13 +233,24 @@ function showModal() {
   modal.removeAttr("hidden");
   continueButton.click(function () {
   modal.attr("hidden", "");
-  $("#search-button").removeClass("loading");
+  showLoading(0);
   });
+}
+
+function showLoading(loading) {
+  if (loading) {
+    $("#search-button").addClass("loading");
+    $("#search-button").text("");
+  } else {
+    $("#search-button").removeClass("loading");
+    $("#search-button").text("Search");
+  }
 }
 
 // Core functionality starts here.
 $(function () {
   if (localStorage.getItem('search') != null) {
+    $("#no-history").remove();
     displaySongs();
   }
   $("#search-form").on("submit", function (e) {
@@ -247,9 +259,12 @@ $(function () {
       $("#search-lyrics").val().trim(),
       $("#search-artist").val().trim()
     );
-    // Show loading spinner.
-    $("#search-button").addClass("loading");
   });
+
+  $("#search-history-list").on("click", "button", function (e) {
+    let historyItem = (e.target.textContent.split(" ⫶ "))
+    searchSong(historyItem[0], historyItem[1]);
+  })
 });
 
 
