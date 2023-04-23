@@ -1,40 +1,39 @@
+var searchHistory = [];
+
 function recentSongs() {
     const lyricsValue = $('#search-lyrics').val();
     const artistValue = $('#search-artist').val();
-    const searchInfo = lyricsValue + ", " + artistValue;
-    const storedVal = JSON.parse(localStorage.getItem('search'));
-    let searchHistory = [];
-  
-    // Retrieve the search history from local storage, or create an empty array if none exist
-    if (storedVal == null){
-        searchHistory = [searchInfo];
-        localStorage.setItem('search', JSON.stringify(searchHistory));
-        console.log("does this 1");
-        $("#0").text(searchHistory[0]);
-    }
-    else if (!storedVal.includes(searchInfo)){
-        searchHistory = storedVal;
+    const searchInfo = lyricsValue + " ⫶ " + artistValue;
+
+    // Prevent duplicates in search history.
+    if (!searchHistory.includes(searchInfo)){
         // Add the searched info object to the search history array
         searchHistory.unshift(searchInfo);
         // Store the updated search history array in local storage
         if(searchHistory.length > 10) {
             searchHistory.pop();
         }
-
         localStorage.setItem('search', JSON.stringify(searchHistory));
-  
-        // Create a new button element with the search label
-        for (let i = 0; i < searchHistory.length; i++){
-            const newSearch = $('#' + String(i));
-            newSearch.text(searchHistory[i]);
-        }
+
+        displaySongs();
     }
 }
 
 function displaySongs(){
-    const searchHistory = JSON.parse(localStorage.getItem('search'));
+    $("#search-history-list li").empty();
+    $("#no-history").remove();
+
     for (let i = 0; i < searchHistory.length; i++){
         const newSearch = $('#' + String(i));
-        newSearch.text(searchHistory[i]);
+        newSearch.append(`
+            <button type="button">${searchHistory[i]}</button>
+        `);
+        newSearch.removeClass("hidden")
     }
 }
+
+$(function () {
+    if (localStorage.getItem("search")) {
+        searchHistory = JSON.parse (localStorage.getItem("search"));
+    }
+});
