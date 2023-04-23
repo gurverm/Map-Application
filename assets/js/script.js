@@ -39,7 +39,7 @@ function searchSong(lyrics, artist) {
         format: "jsonp",
         callback: "jsonp_callback",
       },
-      url: "http://api.musixmatch.com/ws/1.1/track.search?page_size=10&page=1&s_track_rating=desc",
+      url: "https://api.musixmatch.com/ws/1.1/track.search?page_size=10&page=1&s_track_rating=desc",
       dataType: "jsonp",
       jsonpCallback: "jsonp_callback",
       contentType: "application/json",
