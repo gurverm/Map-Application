@@ -249,10 +249,8 @@ function showLoading(loading) {
 
 // Core functionality starts here.
 $(function () {
-  if (localStorage.getItem('search') != null) {
-    $("#no-history").remove();
-    displaySongs();
-  }
+  displaySongs();
+
   $("#search-form").on("submit", function (e) {
     e.preventDefault();
     searchSong(
