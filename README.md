@@ -41,7 +41,7 @@ To run the lyric search application locally, follow these steps:
 
 ###  Usage
 
-Here is a link to the application: [https://gurverm.github.io/lyrics-application/](LYKSong)
+Here is a link to the application: [https://gurverm.github.io/lyrics-application/](https://gurverm.github.io/lyrics-application/)
 
 Enter the lyrics of a song in the search bar and click the search button.
 The application will retrieve songs that match the entered lyrics from the MusixMatch API.
@@ -69,7 +69,7 @@ The application requires an internet connection to access the Spotify API and re
 # Contributors
 * [Gurveer Madurai](https://github.com/gurverm),
 * [Peter Park](https://github.com/qkr0wns),
-* [Marek Polar](https://github.com/MarekAlexPolak),
-* [Jack Lacey-Rogers](https://github.com/MarekAlexPolak),
+* [Marek Polak](https://github.com/MarekAlexPolak),
+* [Jack Lacey-Rogers](https://github.com/jlaceyrogers),
 * [Kajian Pulenthirasingam](https://github.com/kajianpulenthirasingam)
 
