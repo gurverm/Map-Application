@@ -51,13 +51,16 @@ Click on the Spotify link to listen to the full song on Spotify.
 Below are a few images of the deployed application:
 
 First is the homepage where users will be introduced to input the artists name and lyrics.
-![Homepage](./assets/Images/homepage.PNG)
+
+![Homepage](./assets/images/homepage.PNG)
 
 Next is an example of the search results a user would see.
-![SearchResults](./assets/Images/searchResults.PNG)
+
+![SearchResults](./assets/images/searchResults.PNG)
 
 Finally, we have the search history drop down menu where a user can not only see previous results but they can also click on these options to return to their results page.
-![SearchHistory](./assets/Images/searchHistory.PNG)
+
+![SearchHistory](./assets/images/searchHistory.PNG)
 
 Here is a link to the deployed application: https://gurverm.github.io/lyrics-application/ 
 
