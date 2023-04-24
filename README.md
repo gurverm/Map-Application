@@ -2,7 +2,6 @@
 Here is a link to the application: https://gurverm.github.io/lyrics-application/
 Here is a link to the respository: https://github.com/gurverm/lyrics-application
 
-
 ## Table of Contents
 
 - [Introduction](#introduction)
